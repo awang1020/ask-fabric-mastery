@@ -1,8 +1,10 @@
 """Ask Fabric Mastery — Streamlit chat UI (refreshed)."""
 from __future__ import annotations
 
+import base64
 import logging
 import traceback
+from pathlib import Path
 from typing import Any
 
 import streamlit as st
@@ -12,6 +14,18 @@ from src.config import get_settings
 from src.i18n import t
 from src.indexer import build_index, index_stats, load_index
 from src.safety import check_rate_limit, require_password
+
+NEWSLETTER_URL = "https://antoinewang.substack.com/"
+LOGO_PATH = Path(__file__).parent / "assets" / "logo_substack.webp"
+
+
+@st.cache_data(show_spinner=False)
+def _logo_data_uri() -> str | None:
+    """Return the brand logo as a data URI, or None when the asset is missing."""
+    if not LOGO_PATH.is_file():
+        return None
+    payload = base64.b64encode(LOGO_PATH.read_bytes()).decode("ascii")
+    return f"data:image/webp;base64,{payload}"
 
 logging.basicConfig(
     level=logging.INFO,
@@ -62,11 +76,27 @@ html, body, .stApp {{
     padding: 0 0 1.75rem 0;
     margin-bottom: 0.5rem;
     border-bottom: 1px solid rgba(0,0,0,0.06);
+    gap: 1rem;
 }}
 .afm-brand {{
     display: flex;
-    align-items: baseline;
-    gap: 0.6rem;
+    align-items: center;
+    gap: 0.7rem;
+    min-width: 0;
+}}
+.afm-logo {{
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    object-fit: cover;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+    flex-shrink: 0;
+}}
+.afm-brand-text {{
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+    min-width: 0;
 }}
 .afm-brand-mark {{
     font-weight: 600;
@@ -75,11 +105,35 @@ html, body, .stApp {{
     color: #1D1D1F;
 }}
 .afm-brand-sub {{
-    font-size: 0.78rem;
+    font-size: 0.72rem;
     color: #6E6E73;
     text-transform: uppercase;
     letter-spacing: 0.08em;
     font-weight: 500;
+}}
+.afm-cta {{
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.45rem 0.85rem;
+    border-radius: 999px;
+    background: {ACCENT};
+    color: #ffffff !important;
+    font-size: 0.82rem;
+    font-weight: 500;
+    text-decoration: none !important;
+    transition: transform 120ms ease, box-shadow 120ms ease, opacity 120ms ease;
+    white-space: nowrap;
+    box-shadow: 0 1px 3px rgba(103,80,164,0.25);
+}}
+.afm-cta:hover {{
+    opacity: 0.92;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(103,80,164,0.28);
+}}
+.afm-cta-arrow {{
+    font-size: 0.95rem;
+    line-height: 1;
 }}
 
 /* ---- hero ---- */
@@ -348,12 +402,28 @@ def _stats_count() -> int:
 # Rendering helpers
 # ---------------------------------------------------------------------------
 def _topbar(language: str) -> None:
+    logo_uri = _logo_data_uri()
+    if logo_uri:
+        logo_html = (
+            f'<img class="afm-logo" src="{logo_uri}" '
+            f'alt="{t(language, "brand")}" />'
+        )
+    else:
+        logo_html = '<span class="afm-logo" aria-hidden="true">📘</span>'
+
     st.markdown(
         f'<div class="afm-topbar">'
         f'<div class="afm-brand">'
-        f'<span class="afm-brand-mark">📘 {t(language, "brand")}</span>'
+        f'{logo_html}'
+        f'<span class="afm-brand-text">'
+        f'<span class="afm-brand-mark">{t(language, "brand")}</span>'
         f'<span class="afm-brand-sub">{t(language, "subbrand")}</span>'
+        f'</span>'
         f'</div>'
+        f'<a class="afm-cta" href="{NEWSLETTER_URL}" target="_blank" rel="noopener">'
+        f'{t(language, "visit_newsletter")}'
+        f'<span class="afm-cta-arrow">→</span>'
+        f'</a>'
         f'</div>',
         unsafe_allow_html=True,
     )

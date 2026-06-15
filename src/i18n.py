@@ -54,8 +54,7 @@ TRANSLATIONS: dict[str, dict[str, str]] = {
         "auth_password_label": "Access code",
         "auth_submit": "Unlock",
         "auth_invalid": "Invalid access code.",
-        "rate_limited": "You\u2019ve asked {n} questions in the last {window_min} minutes. Please wait about {retry} seconds before the next one.",
-    },
+        "rate_limited": "You\u2019ve asked {n} questions in the last {window_min} minutes. Please wait about {retry} seconds before the next one.",        "visit_newsletter": "Read the newsletter",    },
     "fr": {
         "brand": "Fabric Mastery",
         "subbrand": "assistant RAG",
@@ -102,6 +101,7 @@ TRANSLATIONS: dict[str, dict[str, str]] = {
         "auth_submit": "D\u00e9verrouiller",
         "auth_invalid": "Code d\u2019acc\u00e8s invalide.",
         "rate_limited": "Vous avez pos\u00e9 {n}\u00a0questions ces {window_min}\u00a0minutes. Patientez environ {retry}\u00a0secondes avant la prochaine.",
+        "visit_newsletter": "Lire la newsletter",
     },
 }
 

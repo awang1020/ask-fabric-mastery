@@ -102,6 +102,9 @@ flowchart LR
 ├── .env.example                 # Local config template
 ├── requirements.txt
 │
+├── assets/                      # Static brand assets (logo, future favicons)
+│   └── logo_substack.webp
+│
 ├── src/
 │   ├── config.py                # pydantic-settings (env-driven)
 │   ├── models.py                # AzureOpenAI LLM + Embedding (Entra ID)

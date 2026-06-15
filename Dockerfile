@@ -23,6 +23,7 @@ COPY src ./src
 COPY scripts ./scripts
 COPY app.py ./app.py
 COPY .streamlit ./.streamlit
+COPY assets ./assets
 COPY data ./data
 COPY storage ./storage
 
