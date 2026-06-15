@@ -35,7 +35,10 @@ from src.config import get_settings  # noqa: E402
 
 log = logging.getLogger("ingest_substack")
 
-USER_AGENT = "AskFabricMasteryBot/1.0 (+https://github.com/local)"
+USER_AGENT = (
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+    "(KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
+)
 DEFAULT_SUBSTACK = "https://antoinewang.substack.com"
 POST_PATH_RE = re.compile(r"/p/[^/]+/?$")
 SLUG_SANITIZE_RE = re.compile(r"[^a-z0-9-]+")
@@ -55,14 +58,47 @@ class Post:
 
 def _session() -> requests.Session:
     s = requests.Session()
-    s.headers.update({"User-Agent": USER_AGENT, "Accept-Language": "fr,en;q=0.9"})
+    s.headers.update(
+        {
+            "User-Agent": USER_AGENT,
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+            "Accept-Language": "fr-FR,fr;q=0.9,en-US;q=0.8,en;q=0.7",
+            "Accept-Encoding": "gzip, deflate, br",
+            "Cache-Control": "no-cache",
+            "Pragma": "no-cache",
+            "Sec-Fetch-Dest": "document",
+            "Sec-Fetch-Mode": "navigate",
+            "Sec-Fetch-Site": "none",
+            "Sec-Fetch-User": "?1",
+            "Upgrade-Insecure-Requests": "1",
+        }
+    )
     return s
 
 
-def _fetch(session: requests.Session, url: str, *, timeout: int = 30) -> str:
-    resp = session.get(url, timeout=timeout)
-    resp.raise_for_status()
-    return resp.text
+def _fetch(session: requests.Session, url: str, *, timeout: int = 30, retries: int = 3) -> str:
+    last_exc: Exception | None = None
+    for attempt in range(1, retries + 1):
+        try:
+            resp = session.get(url, timeout=timeout, allow_redirects=True)
+            resp.raise_for_status()
+            return resp.text
+        except requests.HTTPError as exc:
+            last_exc = exc
+            if resp.status_code in (403, 429, 503) and attempt < retries:
+                wait = 2 * attempt
+                log.warning("HTTP %s on %s — retry %d/%d in %ds", resp.status_code, url, attempt, retries, wait)
+                time.sleep(wait)
+                continue
+            raise
+        except requests.RequestException as exc:
+            last_exc = exc
+            if attempt < retries:
+                time.sleep(2 * attempt)
+                continue
+            raise
+    assert last_exc is not None
+    raise last_exc
 
 
 def list_post_urls(session: requests.Session, base_url: str) -> list[str]:
