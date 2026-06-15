@@ -15,8 +15,8 @@ env/
 
 # Local data & persistent index
 storage/
-data/newsletters/*
-!data/newsletters/.gitkeep
+# Newsletter markdowns + index ARE committed (CI can't reach Substack from GH runners — 403)
+# data/newsletters/* is intentionally NOT ignored.
 
 # OS
 .DS_Store

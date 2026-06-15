@@ -285,7 +285,21 @@ def main() -> int:
     log.info("Output directory: %s", out_dir)
 
     session = _session()
-    urls = list_post_urls(session, args.url)
+    existing_md = sorted(out_dir.glob("*.md"))
+    try:
+        urls = list_post_urls(session, args.url)
+    except requests.HTTPError as exc:
+        status = getattr(exc.response, "status_code", "?")
+        log.warning("Substack unreachable (HTTP %s) from this environment.", status)
+        if existing_md:
+            log.warning(
+                "Falling back to %d previously-ingested posts already on disk.",
+                len(existing_md),
+            )
+            return 0
+        log.error("No local posts available and Substack is unreachable — aborting.")
+        return 1
+
     url_dates = _feed_url_date_map(session, args.url.rstrip("/"))
     if args.limit > 0:
         urls = urls[: args.limit]
