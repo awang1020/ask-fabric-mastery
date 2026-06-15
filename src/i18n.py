@@ -8,7 +8,7 @@ TRANSLATIONS: dict[str, dict[str, str]] = {
         "subbrand": "RAG assistant",
         # hero
         "hero_title": "Ask anything about Microsoft Fabric and Power BI",
-        "hero_subtitle": "Answers grounded in {n} editions of the Fabric Mastery newsletter — every claim cited.",
+        "hero_subtitle": "Answers sourced from the Fabric Mastery newsletter.",
         "hero_subtitle_empty": "Drop a newsletter file into the data folder, then build the index to get started.",
         # example prompts
         "ex_arch_title": "Medallion architecture",
@@ -59,7 +59,7 @@ TRANSLATIONS: dict[str, dict[str, str]] = {
         "brand": "Fabric Mastery",
         "subbrand": "assistant RAG",
         "hero_title": "Posez vos questions sur Microsoft Fabric & Power BI",
-        "hero_subtitle": "R\u00e9ponses sourc\u00e9es dans {n} \u00e9ditions de la newsletter Fabric Mastery \u2014 chaque affirmation cit\u00e9e.",
+        "hero_subtitle": "R\u00e9ponses sourc\u00e9es de la newsletter Fabric Mastery.",
         "hero_subtitle_empty": "D\u00e9posez un fichier de newsletter dans le dossier de donn\u00e9es, puis construisez l'index pour d\u00e9marrer.",
         "ex_arch_title": "Architecture Medallion",
         "ex_arch_prompt": "Comment structurer Bronze, Silver et Gold dans Fabric\u00a0?",
