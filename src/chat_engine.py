@@ -29,6 +29,35 @@ import re  # noqa: E402
 _FRONT_MATTER_RE = re.compile(r"^---\s*\n.*?\n---\s*\n", flags=re.DOTALL)
 _HEADING_RE = re.compile(r"^(#{1,6}\s+.*$|=+\s*$)", flags=re.MULTILINE)
 
+# Patterns we treat as obvious prompt-injection / jailbreak attempts.
+# When the user input matches any of these, we short-circuit BEFORE calling
+# the LLM and return the canonical refusal line. This is a cheap defence in
+# depth on top of the system prompt itself.
+_JAILBREAK_RE = re.compile(
+    r"""(?ix)
+    (?:
+        ignore\s+(?:all\s+|the\s+|your\s+|previous\s+)*(?:prior|previous|above|prompt|instructions?|rules?)
+      | disregard\s+(?:all|the|your|previous|prior)?\s*(?:instructions?|rules?|prompt)
+      | (?:forget|oublie|ignore[zr]?)\s+(?:tes|tout(?:es)?|les)?\s*(?:instructions?|consignes?|r[ee]gles?|prompts?)
+      | (?:system|syst[\u00e8e]me)\s+prompt
+      | reveal\s+(?:your|the)?\s*(?:system\s+)?(?:prompt|instructions?)
+      | r[\u00e9e]v[\u00e8e]le[zr]?\s+(?:ton|le)?\s*(?:prompt|system|consigne|instructions?)
+      | (?:tu\s+es\s+maintenant|you\s+are\s+now|act\s+as|pretend\s+to\s+be|joue\s+(?:le\s+r[\u00f4o]le|au\s+r[\u00f4o]le))
+      | (?:do\s+anything\s+now|\bDAN\b|developer\s+mode|mode\s+d[\u00e9e]veloppeur)
+      | jailbreak
+      | bypass\s+(?:the|your|all)?\s*(?:safety|filters?|rules?|restrictions?)
+      | switch\s+(?:to\s+)?(?:another|admin|root|god)\s+mode
+    )
+    """,
+)
+
+
+def looks_like_jailbreak(text: str) -> bool:
+    """Return True when the query matches a known injection / override pattern."""
+    if not text:
+        return False
+    return bool(_JAILBREAK_RE.search(text))
+
 
 def _clean_snippet(raw: str, length: int = 220) -> str:
     text = _FRONT_MATTER_RE.sub("", raw or "")
@@ -116,12 +145,30 @@ def build_chat_engine(index: VectorStoreIndex, language: str = "en") -> ContextC
     )
 
 
-def ask(engine: ContextChatEngine, query: str) -> ChatTurn:
+def _refusal(language: str) -> str:
+    if (language or "").lower().startswith("fr"):
+        return (
+            "Je ne peux pas r\u00e9pondre \u00e0 partir des archives de la "
+            "newsletter Fabric Mastery. Posez-moi plut\u00f4t une question sur "
+            "Microsoft Fabric ou Power BI."
+        )
+    return (
+        "I cannot answer this from the Fabric Mastery newsletter archive. "
+        "Ask me about Microsoft Fabric or Power BI instead."
+    )
+
+
+def ask(engine: ContextChatEngine, query: str, language: str = "en") -> ChatTurn:
     """Run a single query through the chat engine and capture sources.
 
     Sources are de-duplicated by URL (falling back to filename) so the UI only
     surfaces distinct posts even when multiple chunks of the same article match.
+    If ``query`` looks like a prompt-injection / jailbreak attempt, the LLM is
+    bypassed and the canonical refusal line is returned instead.
     """
+    if looks_like_jailbreak(query):
+        return ChatTurn(answer=_refusal(language), sources=[], raw_response=None)
+
     response = engine.chat(query)
 
     seen: set[str] = set()
@@ -134,4 +181,11 @@ def ask(engine: ContextChatEngine, query: str) -> ChatTurn:
         seen.add(key)
         sources.append(src)
 
-    return ChatTurn(answer=str(response), sources=sources, raw_response=response)
+    answer = str(response).strip()
+    # LlamaIndex returns the literal string "Empty Response" when every node
+    # is filtered out by the similarity cutoff. That happens for off-topic
+    # questions (no chunk is close enough). Surface the canonical refusal.
+    if not answer or answer.lower() == "empty response" or not sources:
+        return ChatTurn(answer=_refusal(language), sources=[], raw_response=response)
+
+    return ChatTurn(answer=answer, sources=sources, raw_response=response)

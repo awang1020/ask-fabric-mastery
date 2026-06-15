@@ -13,7 +13,7 @@ from src.chat_engine import Source, ask, build_chat_engine, refresh_sources_inde
 from src.config import get_settings
 from src.i18n import t
 from src.indexer import build_index, index_stats, load_index
-from src.safety import check_rate_limit, require_password
+from src.safety import check_rate_limit
 
 NEWSLETTER_URL = "https://antoinewang.substack.com/"
 LOGO_PATH = Path(__file__).parent / "assets" / "logo_substack.webp"
@@ -623,10 +623,6 @@ def main() -> None:
     language = _sidebar(st.session_state["language"])
     _topbar(language)
 
-    # Anti-bot / anti-scraper gate (no-op when APP_PASSWORD is unset).
-    if not require_password(language):
-        return
-
     engine = _get_engine(language)
     n_sources = _stats_count()
 
@@ -674,7 +670,7 @@ def main() -> None:
     with st.chat_message("assistant", avatar="📘"):
         with st.spinner(t(language, "thinking")):
             try:
-                turn = ask(engine, prompt)
+                turn = ask(engine, prompt, language=language)
             except Exception as exc:  # noqa: BLE001 — UI boundary
                 err = t(language, "error", err=str(exc))
                 st.error(err)

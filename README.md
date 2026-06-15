@@ -19,7 +19,7 @@ edition.
 | Container image | GitHub Container Registry (GHCR), built weekly by GitHub Actions |
 | CI/CD           | GitHub Actions + OIDC federated identity (no long-lived secrets) |
 | Cost ceiling    | Hard AOAI TPM cap (chat 10K, embed 30K) + Azure budget 20 €/mo with email alerts |
-| Anti-bot        | Shared access code (env-var-controlled), per-session sliding rate limit |
+| Anti-abuse      | Strict-RAG system prompt (refuses out-of-scope + jailbreak), regex jailbreak detector, per-session sliding rate limit |
 
 ---
 
@@ -323,31 +323,34 @@ az rest --method PUT `
 
 ---
 
-## 7. Set the access password
+## 7. Open by design + prompt-level guardrails
 
-The image looks at the env var `APP_PASSWORD` at request time. Set it as a
-Container Apps **secret** so it never appears in plain text in any template
-or log:
+The app is **publicly accessible** (no password) on purpose: newsletter
+readers should be able to try it instantly. Abuse is controlled at the
+prompt and code level instead:
 
-```powershell
-$pwd = -join ((48..57) + (65..90) + (97..122) | Get-Random -Count 24 | ForEach-Object {[char]$_})
-Write-Host "Generated password (save it now): $pwd"
+- **Strict-RAG system prompt** (`src/prompts.py`): the model is told to
+  answer only from the retrieved excerpts, refuse any out-of-scope topic
+  (general chat, weather, politics, other vendors, etc.), and ignore every
+  jailbreak / instruction-override attempt. If the question is out of
+  scope, the model returns the canonical refusal line.
+- **Regex jailbreak detector** (`src/chat_engine.py::looks_like_jailbreak`):
+  obvious prompt-injection patterns (`ignore previous instructions`,
+  `tu es maintenant`, `DAN`, `developer mode`, `reveal your system prompt`,
+  etc.) short-circuit BEFORE the LLM is called — zero AOAI tokens spent on
+  attacks.
+- **Empty-retrieval refusal**: when the similarity cutoff filters out every
+  chunk, the user gets the refusal line instead of the model speculating.
+- **Per-session rate limit**: 20 questions / 15 min / session (configurable
+  via `RATE_LIMIT_MAX_QUESTIONS` / `RATE_LIMIT_WINDOW_SECONDS`) caps any
+  single browser session.
+- **AOAI TPM cap**: 10K TPM chat, 30K TPM embedding → hard ceiling on
+  throughput regardless of how many users try at once.
+- **Azure budget**: 20 €/month with email alerts at 50 / 80 / 100 %.
 
-az containerapp secret set -g rg-ask-fabric-mastery -n ask-fabric-mastery `
-  --secrets "app-password=$pwd"
-
-az containerapp update -g rg-ask-fabric-mastery -n ask-fabric-mastery `
-  --set-env-vars `
-    "APP_PASSWORD=secretref:app-password" `
-    "RATE_LIMIT_MAX_QUESTIONS=20" `
-    "RATE_LIMIT_WINDOW_SECONDS=900"
-```
-
-Share that password to your audience via the newsletter. Anyone without it
-just sees the unlock screen — no AOAI call is made, no token is spent.
-
-To rotate it later, repeat the two commands. Any open session is
-invalidated as soon as Streamlit reruns.
+If you ever need to re-enable a shared-code gate (for a closed beta), set
+the `APP_PASSWORD` env var on the Container App; `src/safety.py` still
+ships the gate, it's just dormant when the variable is empty.
 
 ---
 
@@ -422,8 +425,10 @@ az containerapp update -g rg-ask-fabric-mastery -n ask-fabric-mastery # restart 
 | Network | Public ingress on port 8501 | ⚠ public by design (newsletter audience) |
 | Auth (data plane) | AOAI `disableLocalAuth=true` → no API key exists | ✅ |
 | Auth (data plane) | Container App talks to AOAI via system-assigned managed identity | ✅ |
-| Auth (UI) | Shared access code stored as ACA secret, gates every render | ✅ |
-| Auth (UI) | Per-session sliding-window rate limit (20 questions / 15 min) | ✅ |
+| Auth (UI) | None — app is intentionally public for newsletter readers | ⚠ by design |
+| Prompt safety | Strict-RAG system prompt refuses off-topic + jailbreaks | ✅ |
+| Prompt safety | Regex jailbreak detector short-circuits BEFORE LLM call | ✅ |
+| Anti-abuse | Per-session sliding-window rate limit (20 questions / 15 min) | ✅ |
 | Auth (CI/CD) | GitHub OIDC federated to `refs/heads/main` only (no PR cred) | ✅ |
 | RBAC | SP scoped to `Container Apps Contributor` on the app + `Cognitive Services OpenAI User` on AOAI | ✅ |
 | Secrets | `.env`, `storage/`, `.vscode/` excluded by `.gitignore` | ✅ |
