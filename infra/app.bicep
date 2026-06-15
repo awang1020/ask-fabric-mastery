@@ -1,0 +1,187 @@
+// Resource-group-scoped deployment for Ask Fabric Mastery on Container Apps.
+// Adds a Log Analytics workspace, a Container Apps Environment, the Container App
+// (scale-to-zero, system-assigned managed identity) and grants it
+// "Cognitive Services OpenAI User" on the existing Azure OpenAI account.
+targetScope = 'resourceGroup'
+
+@description('Existing Azure OpenAI account name in this resource group.')
+param openAiName string
+
+@description('Full container image (tag included).')
+param containerImage string = 'mcr.microsoft.com/k8se/quickstart:latest'
+
+@description('Container App name.')
+param appName string = 'ask-fabric-mastery'
+
+@description('Location. Defaults to the resource group location.')
+param location string = resourceGroup().location
+
+@description('Min replicas (0 = scale-to-zero).')
+@minValue(0)
+@maxValue(10)
+param minReplicas int = 0
+
+@description('Max replicas.')
+@minValue(1)
+@maxValue(10)
+param maxReplicas int = 2
+
+@description('Container chat deployment name (overrides image default if set).')
+param chatDeployment string = 'gpt-4o-mini'
+
+@description('Container chat model id.')
+param chatModel string = 'gpt-4o-mini'
+
+@description('Container embedding deployment name.')
+param embeddingDeployment string = 'text-embedding-3-small'
+
+@description('Container embedding model id.')
+param embeddingModel string = 'text-embedding-3-small'
+
+@description('Default UI language (en or fr).')
+@allowed([ 'en', 'fr' ])
+param defaultLanguage string = 'fr'
+
+@description('Daily LAW ingestion cap (GB). Keeps the bill predictable.')
+param logDailyQuotaGb int = 1
+
+resource openai 'Microsoft.CognitiveServices/accounts@2024-10-01' existing = {
+  name: openAiName
+}
+
+resource law 'Microsoft.OperationalInsights/workspaces@2023-09-01' = {
+  name: 'law-${appName}'
+  location: location
+  properties: {
+    sku: { name: 'PerGB2018' }
+    retentionInDays: 30
+    workspaceCapping: { dailyQuotaGb: logDailyQuotaGb }
+  }
+}
+
+resource env 'Microsoft.App/managedEnvironments@2024-03-01' = {
+  name: 'cae-${appName}'
+  location: location
+  properties: {
+    appLogsConfiguration: {
+      destination: 'log-analytics'
+      logAnalyticsConfiguration: {
+        customerId: law.properties.customerId
+        sharedKey: law.listKeys().primarySharedKey
+      }
+    }
+    zoneRedundant: false
+  }
+}
+
+resource app 'Microsoft.App/containerApps@2024-03-01' = {
+  name: appName
+  location: location
+  identity: {
+    type: 'SystemAssigned'
+  }
+  properties: {
+    managedEnvironmentId: env.id
+    configuration: {
+      activeRevisionsMode: 'Single'
+      ingress: {
+        external: true
+        targetPort: 8501
+        transport: 'auto'
+        allowInsecure: false
+        stickySessions: {
+          affinity: 'sticky'
+        }
+        traffic: [
+          {
+            latestRevision: true
+            weight: 100
+          }
+        ]
+      }
+    }
+    template: {
+      containers: [
+        {
+          name: 'streamlit'
+          image: containerImage
+          resources: {
+            cpu: json('0.5')
+            memory: '1Gi'
+          }
+          env: [
+            { name: 'AZURE_OPENAI_ENDPOINT', value: openai.properties.endpoint }
+            { name: 'AZURE_OPENAI_API_VERSION', value: '2024-10-21' }
+            { name: 'AZURE_OPENAI_CHAT_DEPLOYMENT', value: chatDeployment }
+            { name: 'AZURE_OPENAI_CHAT_MODEL', value: chatModel }
+            { name: 'AZURE_OPENAI_EMBEDDING_DEPLOYMENT', value: embeddingDeployment }
+            { name: 'AZURE_OPENAI_EMBEDDING_MODEL', value: embeddingModel }
+            { name: 'DATA_DIR', value: '/app/data/newsletters' }
+            { name: 'STORAGE_DIR', value: '/app/storage/chroma' }
+            { name: 'COLLECTION_NAME', value: 'fabric_mastery' }
+            { name: 'DEFAULT_LANGUAGE', value: defaultLanguage }
+            { name: 'TOP_K', value: '6' }
+            { name: 'SIMILARITY_CUTOFF', value: '0.35' }
+            { name: 'TEMPERATURE', value: '0.1' }
+            { name: 'MAX_TOKENS', value: '1024' }
+          ]
+          probes: [
+            {
+              type: 'Liveness'
+              httpGet: {
+                path: '/_stcore/health'
+                port: 8501
+              }
+              initialDelaySeconds: 20
+              periodSeconds: 30
+              timeoutSeconds: 5
+            }
+            {
+              type: 'Readiness'
+              httpGet: {
+                path: '/_stcore/health'
+                port: 8501
+              }
+              initialDelaySeconds: 10
+              periodSeconds: 15
+              timeoutSeconds: 5
+            }
+          ]
+        }
+      ]
+      scale: {
+        minReplicas: minReplicas
+        maxReplicas: maxReplicas
+        rules: [
+          {
+            name: 'http-rule'
+            http: {
+              metadata: {
+                concurrentRequests: '50'
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}
+
+// Cognitive Services OpenAI User
+var openAiUserRoleId = '5e0bd9bd-7b93-4f28-af87-19fc36ad61bd'
+
+resource roleAssign 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  scope: openai
+  name: guid(openai.id, app.id, openAiUserRoleId)
+  properties: {
+    principalId: app.identity.principalId
+    principalType: 'ServicePrincipal'
+    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', openAiUserRoleId)
+  }
+}
+
+output appName string = app.name
+output fqdn string = app.properties.configuration.ingress.fqdn
+output appUrl string = 'https://${app.properties.configuration.ingress.fqdn}'
+output logAnalyticsName string = law.name
+output containerEnvironmentName string = env.name
