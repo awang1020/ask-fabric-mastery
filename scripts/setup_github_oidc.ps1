@@ -103,11 +103,11 @@ $creds = @(
     @{
         name = 'gha-main-branch'
         subject = "repo:${GithubOwner}/${GithubRepo}:ref:refs/heads/main"
-    },
-    @{
-        name = 'gha-pull-request'
-        subject = "repo:${GithubOwner}/${GithubRepo}:pull_request"
     }
+    # NOTE: pull_request federated credential intentionally omitted.
+    # On a public repo it lets any PR (incl. from forks) impersonate the SP.
+    # If you ever need PR validation, scope it via GitHub "Environments"
+    # with required reviewers and use subject "environment:<name>".
 )
 
 foreach ($c in $creds) {
