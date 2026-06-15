@@ -48,6 +48,13 @@ TRANSLATIONS: dict[str, dict[str, str]] = {
         "config_hint": "Copy `.env.example` to `.env` and fill in your Azure OpenAI credentials.",
         "error": "Error: {err}",
         "footer": "Powered by Azure OpenAI + LlamaIndex \u00b7 Grounded RAG \u00b7 {n} sources indexed",
+        # safety: auth + rate limit
+        "auth_title": "Private preview",
+        "auth_subtitle": "This assistant is reserved for Fabric Mastery newsletter subscribers. Enter the shared access code from the latest edition to continue.",
+        "auth_password_label": "Access code",
+        "auth_submit": "Unlock",
+        "auth_invalid": "Invalid access code.",
+        "rate_limited": "You\u2019ve asked {n} questions in the last {window_min} minutes. Please wait about {retry} seconds before the next one.",
     },
     "fr": {
         "brand": "Fabric Mastery",
@@ -88,6 +95,13 @@ TRANSLATIONS: dict[str, dict[str, str]] = {
         "config_hint": "Copiez `.env.example` vers `.env` puis renseignez vos identifiants Azure OpenAI.",
         "error": "Erreur\u00a0: {err}",
         "footer": "Propuls\u00e9 par Azure OpenAI + LlamaIndex \u00b7 RAG strict \u00b7 {n} sources index\u00e9es",
+        # safety: auth + rate limit
+        "auth_title": "Acc\u00e8s r\u00e9serv\u00e9",
+        "auth_subtitle": "Cet assistant est r\u00e9serv\u00e9 aux abonn\u00e9s de la newsletter Fabric Mastery. Entrez le code d\u2019acc\u00e8s communiqu\u00e9 dans la derni\u00e8re \u00e9dition pour continuer.",
+        "auth_password_label": "Code d\u2019acc\u00e8s",
+        "auth_submit": "D\u00e9verrouiller",
+        "auth_invalid": "Code d\u2019acc\u00e8s invalide.",
+        "rate_limited": "Vous avez pos\u00e9 {n}\u00a0questions ces {window_min}\u00a0minutes. Patientez environ {retry}\u00a0secondes avant la prochaine.",
     },
 }
 

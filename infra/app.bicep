@@ -45,6 +45,20 @@ param defaultLanguage string = 'fr'
 @description('Daily LAW ingestion cap (GB). Keeps the bill predictable.')
 param logDailyQuotaGb int = 1
 
+@description('Shared access code that visitors must enter before chatting. Leave blank to expose the app publicly (NOT recommended).')
+@secure()
+param appPassword string = ''
+
+@description('Max questions a single browser session can ask per window.')
+@minValue(1)
+@maxValue(500)
+param rateLimitMaxQuestions int = 20
+
+@description('Sliding window size, in seconds, for the per-session rate limit.')
+@minValue(60)
+@maxValue(86400)
+param rateLimitWindowSeconds int = 900
+
 resource openai 'Microsoft.CognitiveServices/accounts@2024-10-01' existing = {
   name: openAiName
 }
@@ -84,6 +98,12 @@ resource app 'Microsoft.App/containerApps@2024-03-01' = {
     managedEnvironmentId: env.id
     configuration: {
       activeRevisionsMode: 'Single'
+      secrets: [
+        {
+          name: 'app-password'
+          value: appPassword
+        }
+      ]
       ingress: {
         external: true
         targetPort: 8501
@@ -124,6 +144,9 @@ resource app 'Microsoft.App/containerApps@2024-03-01' = {
             { name: 'SIMILARITY_CUTOFF', value: '0.35' }
             { name: 'TEMPERATURE', value: '0.1' }
             { name: 'MAX_TOKENS', value: '1024' }
+            { name: 'APP_PASSWORD', secretRef: 'app-password' }
+            { name: 'RATE_LIMIT_MAX_QUESTIONS', value: string(rateLimitMaxQuestions) }
+            { name: 'RATE_LIMIT_WINDOW_SECONDS', value: string(rateLimitWindowSeconds) }
           ]
           probes: [
             {

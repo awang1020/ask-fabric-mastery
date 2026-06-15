@@ -11,6 +11,7 @@ from src.chat_engine import Source, ask, build_chat_engine, refresh_sources_inde
 from src.config import get_settings
 from src.i18n import t
 from src.indexer import build_index, index_stats, load_index
+from src.safety import check_rate_limit, require_password
 
 logging.basicConfig(
     level=logging.INFO,
@@ -552,6 +553,10 @@ def main() -> None:
     language = _sidebar(st.session_state["language"])
     _topbar(language)
 
+    # Anti-bot / anti-scraper gate (no-op when APP_PASSWORD is unset).
+    if not require_password(language):
+        return
+
     engine = _get_engine(language)
     n_sources = _stats_count()
 
@@ -578,6 +583,11 @@ def main() -> None:
                 f'<div class="afm-footer">{t(language, "footer", n=n)}</div>',
                 unsafe_allow_html=True,
             )
+        return
+
+    # Per-session sliding-window rate limit (caps AOAI token spend per visitor).
+    allowed, _retry = check_rate_limit(language)
+    if not allowed:
         return
 
     # Append + render user message

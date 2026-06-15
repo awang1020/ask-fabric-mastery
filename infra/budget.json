@@ -1,0 +1,44 @@
+{
+  "properties": {
+    "category": "Cost",
+    "amount": 20,
+    "timeGrain": "Monthly",
+    "timePeriod": {
+      "startDate": "2026-06-01T00:00:00Z",
+      "endDate": "2031-06-01T00:00:00Z"
+    },
+    "filter": {
+      "dimensions": {
+        "name": "ResourceGroupName",
+        "operator": "In",
+        "values": [ "rg-ask-fabric-mastery" ]
+      }
+    },
+    "notifications": {
+      "Actual_50": {
+        "enabled": true,
+        "operator": "GreaterThan",
+        "threshold": 50,
+        "thresholdType": "Actual",
+        "contactEmails": [ "antoinewang@MngEnvMCAP752066.onmicrosoft.com" ],
+        "locale": "fr-fr"
+      },
+      "Actual_80": {
+        "enabled": true,
+        "operator": "GreaterThan",
+        "threshold": 80,
+        "thresholdType": "Actual",
+        "contactEmails": [ "antoinewang@MngEnvMCAP752066.onmicrosoft.com" ],
+        "locale": "fr-fr"
+      },
+      "Forecast_100": {
+        "enabled": true,
+        "operator": "GreaterThan",
+        "threshold": 100,
+        "thresholdType": "Forecasted",
+        "contactEmails": [ "antoinewang@MngEnvMCAP752066.onmicrosoft.com" ],
+        "locale": "fr-fr"
+      }
+    }
+  }
+}
