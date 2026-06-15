@@ -4,7 +4,7 @@ from __future__ import annotations
 TRANSLATIONS: dict[str, dict[str, str]] = {
     "en": {
         # branding
-        "brand": "Fabric Mastery",
+        "brand": "Ask Fabric Mastery",
         "subbrand": "RAG assistant",
         # hero
         "hero_title": "Ask anything about Microsoft Fabric and Power BI",
@@ -56,7 +56,7 @@ TRANSLATIONS: dict[str, dict[str, str]] = {
         "auth_invalid": "Invalid access code. The code is published at the top of the latest Fabric Mastery edition.",
         "rate_limited": "You\u2019ve asked {n} questions in the last {window_min} minutes. Please wait about {retry} seconds before the next one.",        "visit_newsletter": "Read the newsletter",    },
     "fr": {
-        "brand": "Fabric Mastery",
+        "brand": "Ask Fabric Mastery",
         "subbrand": "assistant RAG",
         "hero_title": "Posez vos questions sur Microsoft Fabric & Power BI",
         "hero_subtitle": "R\u00e9ponses sourc\u00e9es de la newsletter Fabric Mastery.",
