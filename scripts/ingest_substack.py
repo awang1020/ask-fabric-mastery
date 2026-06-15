@@ -63,7 +63,10 @@ def _session() -> requests.Session:
             "User-Agent": USER_AGENT,
             "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
             "Accept-Language": "fr-FR,fr;q=0.9,en-US;q=0.8,en;q=0.7",
-            "Accept-Encoding": "gzip, deflate, br",
+            # Brotli (br) intentionally omitted: requests can't decode it without
+            # the `brotli`/`brotlicffi` package, which would return raw bytes
+            # masquerading as HTML and break every parser.
+            "Accept-Encoding": "gzip, deflate",
             "Cache-Control": "no-cache",
             "Pragma": "no-cache",
             "Sec-Fetch-Dest": "document",
@@ -186,7 +189,16 @@ def parse_post(html: str, url: str, *, fallback_date: str = "") -> Post:
     else:
         author = ""
 
-    body = soup.select_one("div.body.markup") or soup.select_one("article")
+    body = (
+        soup.select_one("div.body.markup")
+        or soup.select_one("div.available-content")
+        or soup.select_one("div.body")
+        or soup.select_one('div[class*="available-content"]')
+        or soup.select_one('div[class*="post-content"]')
+        or soup.select_one('div[class*="markup"]')
+        or soup.select_one("article")
+        or soup.select_one('div[class*="post"]')
+    )
     if body is None:
         raise ValueError(f"No article body found at {url}")
 
