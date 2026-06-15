@@ -13,7 +13,7 @@ from src.chat_engine import Source, ask, build_chat_engine, refresh_sources_inde
 from src.config import get_settings
 from src.i18n import t
 from src.indexer import build_index, index_stats, load_index
-from src.safety import check_rate_limit
+from src.safety import check_rate_limit, require_password
 
 NEWSLETTER_URL = "https://antoinewang.substack.com/"
 LOGO_PATH = Path(__file__).parent / "assets" / "logo_substack.webp"
@@ -622,6 +622,11 @@ def main() -> None:
 
     language = _sidebar(st.session_state["language"])
     _topbar(language)
+
+    # Shared-code gate (active only when APP_PASSWORD env var is set).
+    # The newsletter publishes the code; readers paste it once per session.
+    if not require_password(language):
+        return
 
     engine = _get_engine(language)
     n_sources = _stats_count()

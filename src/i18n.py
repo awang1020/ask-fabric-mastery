@@ -50,10 +50,10 @@ TRANSLATIONS: dict[str, dict[str, str]] = {
         "footer": "Powered by Azure OpenAI + LlamaIndex \u00b7 Grounded RAG \u00b7 {n} sources indexed",
         # safety: auth + rate limit
         "auth_title": "Private preview",
-        "auth_subtitle": "This assistant is reserved for Fabric Mastery newsletter subscribers. Enter the shared access code from the latest edition to continue.",
+        "auth_subtitle": "This assistant is reserved for Fabric Mastery readers. The access code is at the top of the latest newsletter edition — paste it once and start asking questions.",
         "auth_password_label": "Access code",
         "auth_submit": "Unlock",
-        "auth_invalid": "Invalid access code.",
+        "auth_invalid": "Invalid access code. The code is published at the top of the latest Fabric Mastery edition.",
         "rate_limited": "You\u2019ve asked {n} questions in the last {window_min} minutes. Please wait about {retry} seconds before the next one.",        "visit_newsletter": "Read the newsletter",    },
     "fr": {
         "brand": "Fabric Mastery",
@@ -95,11 +95,11 @@ TRANSLATIONS: dict[str, dict[str, str]] = {
         "error": "Erreur\u00a0: {err}",
         "footer": "Propuls\u00e9 par Azure OpenAI + LlamaIndex \u00b7 RAG strict \u00b7 {n} sources index\u00e9es",
         # safety: auth + rate limit
-        "auth_title": "Acc\u00e8s r\u00e9serv\u00e9",
-        "auth_subtitle": "Cet assistant est r\u00e9serv\u00e9 aux abonn\u00e9s de la newsletter Fabric Mastery. Entrez le code d\u2019acc\u00e8s communiqu\u00e9 dans la derni\u00e8re \u00e9dition pour continuer.",
+        "auth_title": "Acc\u00e8s r\u00e9serv\u00e9 aux lecteurs",
+        "auth_subtitle": "Cet assistant est r\u00e9serv\u00e9 aux lecteurs de la newsletter Fabric Mastery. Le code d\u2019acc\u00e8s se trouve en haut de la derni\u00e8re \u00e9dition \u2014 collez-le ici pour commencer.",
         "auth_password_label": "Code d\u2019acc\u00e8s",
         "auth_submit": "D\u00e9verrouiller",
-        "auth_invalid": "Code d\u2019acc\u00e8s invalide.",
+        "auth_invalid": "Code d\u2019acc\u00e8s invalide. Vous le trouverez en haut de la derni\u00e8re \u00e9dition de la newsletter Fabric Mastery.",
         "rate_limited": "Vous avez pos\u00e9 {n}\u00a0questions ces {window_min}\u00a0minutes. Patientez environ {retry}\u00a0secondes avant la prochaine.",
         "visit_newsletter": "Lire la newsletter",
     },

@@ -19,7 +19,7 @@ edition.
 | Container image | GitHub Container Registry (GHCR), built weekly by GitHub Actions |
 | CI/CD           | GitHub Actions + OIDC federated identity (no long-lived secrets) |
 | Cost ceiling    | Hard AOAI TPM cap (chat 10K, embed 30K) + Azure budget 20 €/mo with email alerts |
-| Anti-abuse      | Strict-RAG system prompt (refuses out-of-scope + jailbreak), regex jailbreak detector, per-session sliding rate limit |
+| Anti-abuse      | Shared access code published in the latest newsletter edition, strict-RAG prompt + regex jailbreak detector + per-session sliding rate limit |
 
 ---
 
@@ -323,34 +323,59 @@ az rest --method PUT `
 
 ---
 
-## 7. Open by design + prompt-level guardrails
+## 7. Reader-gated access + prompt-level guardrails
 
-The app is **publicly accessible** (no password) on purpose: newsletter
-readers should be able to try it instantly. Abuse is controlled at the
-prompt and code level instead:
+The app is gated by a **shared access code** that you publish at the top of
+the latest newsletter edition. Readers paste it once per browser session and
+start asking questions. The gate is deliberately *not* per-user auth — it is
+a cheap anti-bot / anti-scraper layer suitable for a newsletter audience.
 
-- **Strict-RAG system prompt** (`src/prompts.py`): the model is told to
-  answer only from the retrieved excerpts, refuse any out-of-scope topic
-  (general chat, weather, politics, other vendors, etc.), and ignore every
-  jailbreak / instruction-override attempt. If the question is out of
-  scope, the model returns the canonical refusal line.
-- **Regex jailbreak detector** (`src/chat_engine.py::looks_like_jailbreak`):
-  obvious prompt-injection patterns (`ignore previous instructions`,
-  `tu es maintenant`, `DAN`, `developer mode`, `reveal your system prompt`,
-  etc.) short-circuit BEFORE the LLM is called — zero AOAI tokens spent on
-  attacks.
-- **Empty-retrieval refusal**: when the similarity cutoff filters out every
-  chunk, the user gets the refusal line instead of the model speculating.
-- **Per-session rate limit**: 20 questions / 15 min / session (configurable
-  via `RATE_LIMIT_MAX_QUESTIONS` / `RATE_LIMIT_WINDOW_SECONDS`) caps any
-  single browser session.
-- **AOAI TPM cap**: 10K TPM chat, 30K TPM embedding → hard ceiling on
-  throughput regardless of how many users try at once.
-- **Azure budget**: 20 €/month with email alerts at 50 / 80 / 100 %.
+Layered defences:
 
-If you ever need to re-enable a shared-code gate (for a closed beta), set
-the `APP_PASSWORD` env var on the Container App; `src/safety.py` still
-ships the gate, it's just dormant when the variable is empty.
+1. **Shared access code gate** (`src/safety.py::require_password`) reads the
+   `APP_PASSWORD` env var on the Container App. When unset, the gate is
+   dormant; when set, the app refuses to render anything else (and never
+   calls Azure OpenAI) until the code is typed correctly. Constant-time
+   comparison avoids trivial timing oracles.
+2. **Strict-RAG system prompt** (`src/prompts.py`) tells the model to answer
+   only from the retrieved excerpts, refuse any out-of-scope topic, and
+   ignore every jailbreak / instruction-override attempt.
+3. **Regex jailbreak detector** (`src/chat_engine.py::looks_like_jailbreak`)
+   short-circuits obvious prompt-injection patterns (`ignore previous
+   instructions`, `tu es maintenant`, `DAN`, `developer mode`, `reveal your
+   system prompt`, etc.) BEFORE the LLM is called — zero AOAI tokens spent
+   on attacks.
+4. **Empty-retrieval refusal** when the similarity cutoff filters out every
+   chunk: the user gets the refusal line instead of the model speculating.
+5. **Per-session sliding rate limit**: 20 questions / 15 min (configurable
+   via `RATE_LIMIT_MAX_QUESTIONS` / `RATE_LIMIT_WINDOW_SECONDS`).
+6. **AOAI TPM cap**: 10K TPM chat, 30K TPM embedding — hard ceiling on
+   throughput regardless of how many users try at once.
+7. **Azure budget**: 20 €/month with email alerts at 50 / 80 / 100 %.
+
+### Set or rotate the access code
+
+The image looks at the env var `APP_PASSWORD` at request time. Set it as a
+Container Apps **secret** so it never appears in plain text in any template
+or log:
+
+```powershell
+# Pick a memorable code (publish it in your newsletter)
+$pwd = "fabric-mastery-2026"
+
+az containerapp secret set -g rg-ask-fabric-mastery -n ask-fabric-mastery `
+  --secrets "app-password=$pwd"
+
+az containerapp update -g rg-ask-fabric-mastery -n ask-fabric-mastery `
+  --set-env-vars `
+    "APP_PASSWORD=secretref:app-password" `
+    "RATE_LIMIT_MAX_QUESTIONS=20" `
+    "RATE_LIMIT_WINDOW_SECONDS=900"
+```
+
+To rotate the code later, run the two commands again with a new value. Any
+open session is invalidated as soon as Streamlit reruns. Open the app to
+verify the gate appears before the chat.
 
 ---
 
@@ -425,7 +450,7 @@ az containerapp update -g rg-ask-fabric-mastery -n ask-fabric-mastery # restart 
 | Network | Public ingress on port 8501 | ⚠ public by design (newsletter audience) |
 | Auth (data plane) | AOAI `disableLocalAuth=true` → no API key exists | ✅ |
 | Auth (data plane) | Container App talks to AOAI via system-assigned managed identity | ✅ |
-| Auth (UI) | None — app is intentionally public for newsletter readers | ⚠ by design |
+| Auth (UI) | Shared access code (published in the newsletter) gates every render | ✅ |
 | Prompt safety | Strict-RAG system prompt refuses off-topic + jailbreaks | ✅ |
 | Prompt safety | Regex jailbreak detector short-circuits BEFORE LLM call | ✅ |
 | Anti-abuse | Per-session sliding-window rate limit (20 questions / 15 min) | ✅ |
