@@ -14,12 +14,12 @@ on:
     paths:
       - 'app.py'
       - 'src/**'
-      - 'scripts/ingest_substack.py'
-      - 'scripts/build_index.py'
+      - 'scripts/**'
       - 'requirements.txt'
       - 'Dockerfile'
       - '.streamlit/**'
       - '.github/workflows/refresh.yml'
+      - 'data/newsletters/**'
 
 permissions:
   id-token: write      # OIDC for azure/login
