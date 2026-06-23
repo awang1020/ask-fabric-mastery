@@ -35,8 +35,8 @@ class Settings(BaseSettings):
     chunk_overlap: int = Field(128, ge=0, le=2048)
 
     # --- Retrieval & generation --------------------------------------------
-    top_k: int = Field(6, ge=1, le=50)
-    similarity_cutoff: float = Field(0.35, ge=0.0, le=1.0)
+    top_k: int = Field(10, ge=1, le=50)
+    similarity_cutoff: float = Field(0.22, ge=0.0, le=1.0)
     temperature: float = Field(0.1, ge=0.0, le=2.0)
     max_tokens: int = Field(1024, ge=64, le=16384)
 
