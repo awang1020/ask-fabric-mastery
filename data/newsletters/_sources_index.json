@@ -146,6 +146,13 @@
     "title": "Sécuriser les connexions dans Microsoft Fabric",
     "url": "https://antoinewang.substack.com/p/secure-connexion-source-microsoft-fabric"
   },
+  "2026-06-23_rayfin-fabric-apps-demo.md": {
+    "author": "Antoine Wang",
+    "date": "2026-06-23",
+    "slug": "rayfin-fabric-apps-demo",
+    "title": "Rayfin + Fabric Apps : de l'idée à une app testable par vos équipes",
+    "url": "https://antoinewang.substack.com/p/rayfin-fabric-apps-demo"
+  },
   "undated_capacity-metrics-fabric.md": {
     "author": "Antoine Wang",
     "date": "",
@@ -159,6 +166,13 @@
     "slug": "microsoft-fabric-copilot-powerbi",
     "title": "Power BI : Fini la page blanche avec Copilot",
     "url": "https://antoinewang.substack.com/p/microsoft-fabric-copilot-powerbi"
+  },
+  "undated_microsoft-fabric-top-3-des-nouveautes-2026-02.md": {
+    "author": "Antoine Wang",
+    "date": "",
+    "slug": "microsoft-fabric-top-3-des-nouveautes-2026-02",
+    "title": "Microsoft Fabric : Top 3 des nouveautés de Février 2026 (+ Bonus)",
+    "url": "https://antoinewang.substack.com/p/microsoft-fabric-top-3-des-nouveautes-2026-02"
   },
   "undated_microsoft-fabric-top-3-des-nouveautes.md": {
     "author": "Antoine Wang",
