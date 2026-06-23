@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import base64
 import logging
+import os
 import traceback
 from pathlib import Path
 from typing import Any
@@ -17,6 +18,20 @@ from src.safety import check_rate_limit, require_password
 
 NEWSLETTER_URL = "https://antoinewang.substack.com/"
 LOGO_PATH = Path(__file__).parent / "assets" / "logo_substack.webp"
+
+# Only render Python tracebacks in the UI when explicitly enabled — otherwise
+# they leak file paths, dependency versions and internal state to public users.
+_DEBUG_TRACEBACK = os.getenv("DEBUG_TRACEBACK", "").strip().lower() in ("1", "true", "yes", "on")
+log = logging.getLogger("app")
+
+
+def _report_error(language: str, exc: Exception) -> None:
+    """Log the full traceback server-side and show a sanitised error to the user."""
+    log.exception("UI error: %s", exc)
+    st.error(t(language, "error", err=str(exc)))
+    if _DEBUG_TRACEBACK:
+        with st.expander("Traceback"):
+            st.code(traceback.format_exc())
 
 
 @st.cache_data(show_spinner=False)
@@ -485,9 +500,11 @@ def _render_sources(sources: list[dict], language: str) -> None:
             f'<div class="afm-source-snippet">{_html_escape(snippet)}…</div>'
             if snippet else ""
         )
-        open_attrs = (
-            f'href="{url}" target="_blank" rel="noopener"' if url else 'href="javascript:void(0)"'
-        )
+        # Only allow http(s) URLs; HTML-escape to neutralise any malformed input.
+        if url and url.lower().startswith(("https://", "http://")):
+            open_attrs = f'href="{_html_escape(url)}" target="_blank" rel="noopener noreferrer"'
+        else:
+            open_attrs = 'role="link" aria-disabled="true"'
 
         cards.append(
             f'<a class="afm-source-card" {open_attrs}>'
@@ -573,9 +590,7 @@ def _sidebar(language: str) -> str:
                 try:
                     report = build_index(rebuild=rebuild)
                 except Exception as exc:  # noqa: BLE001 — UI boundary
-                    st.error(t(language, "error", err=str(exc)))
-                    with st.expander("Traceback"):
-                        st.code(traceback.format_exc())
+                    _report_error(language, exc)
                 else:
                     if report.files_indexed == 0:
                         st.warning(t(language, "no_files", dir=get_settings().data_dir))
@@ -677,12 +692,9 @@ def main() -> None:
             try:
                 turn = ask(engine, prompt, language=language)
             except Exception as exc:  # noqa: BLE001 — UI boundary
-                err = t(language, "error", err=str(exc))
-                st.error(err)
-                with st.expander("Traceback"):
-                    st.code(traceback.format_exc())
+                _report_error(language, exc)
                 st.session_state["messages"].append(
-                    {"role": "assistant", "content": err, "sources": []}
+                    {"role": "assistant", "content": t(language, "error", err=str(exc)), "sources": []}
                 )
                 return
 

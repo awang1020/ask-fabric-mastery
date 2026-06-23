@@ -54,7 +54,9 @@ TRANSLATIONS: dict[str, dict[str, str]] = {
         "auth_password_label": "Access code",
         "auth_submit": "Unlock",
         "auth_invalid": "Invalid access code. The code is published at the top of the latest Fabric Mastery edition.",
-        "rate_limited": "You\u2019ve asked {n} questions in the last {window_min} minutes. Please wait about {retry} seconds before the next one.",        "visit_newsletter": "Read the newsletter",    },
+        "rate_limited": "You\u2019ve asked {n} questions in the last {window_min} minutes. Please wait about {retry} seconds before the next one.",
+        "visit_newsletter": "Read the newsletter",
+    },
     "fr": {
         "brand": "Ask Fabric Mastery",
         "subbrand": "assistant RAG",

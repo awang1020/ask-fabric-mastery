@@ -21,9 +21,9 @@ class Settings(BaseSettings):
     azure_openai_api_key: str | None = None
     azure_openai_api_version: str = "2024-10-21"
     azure_openai_chat_deployment: str = Field(..., min_length=1)
-    azure_openai_chat_model: str = "gpt-4o"
+    azure_openai_chat_model: str = "gpt-4o-mini"
     azure_openai_embedding_deployment: str = Field(..., min_length=1)
-    azure_openai_embedding_model: str = "text-embedding-3-large"
+    azure_openai_embedding_model: str = "text-embedding-3-small"
 
     # --- Paths --------------------------------------------------------------
     data_dir: Path = Path("./data/newsletters")

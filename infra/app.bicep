@@ -140,10 +140,8 @@ resource app 'Microsoft.App/containerApps@2024-03-01' = {
             { name: 'STORAGE_DIR', value: '/app/storage/chroma' }
             { name: 'COLLECTION_NAME', value: 'fabric_mastery' }
             { name: 'DEFAULT_LANGUAGE', value: defaultLanguage }
-            { name: 'TOP_K', value: '6' }
-            { name: 'SIMILARITY_CUTOFF', value: '0.35' }
-            { name: 'TEMPERATURE', value: '0.1' }
-            { name: 'MAX_TOKENS', value: '1024' }
+            // Retrieval & generation tuning (TOP_K, SIMILARITY_CUTOFF, TEMPERATURE, MAX_TOKENS)
+            // live in src/config.py — not in infra — so a code change ships without a Bicep redeploy.
             { name: 'APP_PASSWORD', secretRef: 'app-password' }
             { name: 'RATE_LIMIT_MAX_QUESTIONS', value: string(rateLimitMaxQuestions) }
             { name: 'RATE_LIMIT_WINDOW_SECONDS', value: string(rateLimitWindowSeconds) }
