@@ -153,6 +153,13 @@
     "title": "Rayfin + Fabric Apps : de l'idée à une app testable par vos équipes",
     "url": "https://antoinewang.substack.com/p/rayfin-fabric-apps-demo"
   },
+  "2026-06-30_vnet-data-gateway-microsoft-fabric.md": {
+    "author": "Antoine Wang",
+    "date": "2026-06-30",
+    "slug": "vnet-data-gateway-microsoft-fabric",
+    "title": "3 étapes pour connecter une source privée à Fabric sans exposer vos données sur internet",
+    "url": "https://antoinewang.substack.com/p/vnet-data-gateway-microsoft-fabric"
+  },
   "undated_capacity-metrics-fabric.md": {
     "author": "Antoine Wang",
     "date": "",
@@ -187,5 +194,12 @@
     "slug": "microsoft-fabric",
     "title": "Microsoft Fabric : Révolution ou simple rebranding ?",
     "url": "https://antoinewang.substack.com/p/microsoft-fabric"
+  },
+  "undated_migration-power-bi-premium-to-fabric.md": {
+    "author": "Antoine Wang",
+    "date": "",
+    "slug": "migration-power-bi-premium-to-fabric",
+    "title": "Adieu Power BI Premium : Pourquoi vous devez migrer vers Fabric dès aujourd’hui",
+    "url": "https://antoinewang.substack.com/p/migration-power-bi-premium-to-fabric"
   }
 }
