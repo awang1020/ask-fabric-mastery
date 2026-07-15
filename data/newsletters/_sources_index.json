@@ -167,12 +167,26 @@
     "title": "Microsoft Fabric : Data Agent vs Copilot",
     "url": "https://antoinewang.substack.com/p/microsoft-fabric-data-agent-copilot"
   },
+  "2026-07-14_fabric-copilot-capacity-dedicated.md": {
+    "author": "Antoine Wang",
+    "date": "2026-07-14",
+    "slug": "fabric-copilot-capacity-dedicated",
+    "title": "Microsoft Fabric : Copilot Capacity",
+    "url": "https://antoinewang.substack.com/p/fabric-copilot-capacity-dedicated"
+  },
   "undated_capacity-metrics-fabric.md": {
     "author": "Antoine Wang",
     "date": "",
     "slug": "capacity-metrics-fabric",
     "title": "Microsoft Fabric : Surveiller votre capacité comme un Pro",
     "url": "https://antoinewang.substack.com/p/capacity-metrics-fabric"
+  },
+  "undated_fabcon-and-sqlcon-2026.md": {
+    "author": "Antoine Wang",
+    "date": "",
+    "slug": "fabcon-and-sqlcon-2026",
+    "title": "FabCon & SQLCon 2026 : l’événement à ne pas rater !",
+    "url": "https://antoinewang.substack.com/p/fabcon-and-sqlcon-2026"
   },
   "undated_microsoft-fabric-copilot-powerbi.md": {
     "author": "Antoine Wang",
