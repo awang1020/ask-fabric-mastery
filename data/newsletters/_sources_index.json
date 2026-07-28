@@ -1,24 +1,45 @@
 {
+  "2026-02-03_microsoft-fabric-top-3-nouveautes-2026-01.md": {
+    "author": "Antoine Wang",
+    "date": "2026-02-03",
+    "slug": "microsoft-fabric-top-3-nouveautes-2026-01",
+    "title": "Microsoft Fabric : Top 3 des nouveautés de Janvier 2026",
+    "url": "https://blog.antoinewang-tech.com/p/microsoft-fabric-top-3-nouveautes-2026-01"
+  },
+  "2026-02-10_microsoft-fabric-revolution-ou-rebranding.md": {
+    "author": "Antoine Wang",
+    "date": "2026-02-10",
+    "slug": "microsoft-fabric-revolution-ou-rebranding",
+    "title": "Microsoft Fabric : Révolution ou simple rebranding ?",
+    "url": "https://blog.antoinewang-tech.com/p/microsoft-fabric-revolution-ou-rebranding"
+  },
+  "2026-02-17_microsoft-fabric-copilot-powerbi.md": {
+    "author": "Antoine Wang",
+    "date": "2026-02-17",
+    "slug": "microsoft-fabric-copilot-powerbi",
+    "title": "Power BI : Fini la page blanche avec Copilot",
+    "url": "https://blog.antoinewang-tech.com/p/microsoft-fabric-copilot-powerbi"
+  },
   "2026-02-24_capacity-metrics-fabric.md": {
     "author": "Antoine Wang",
     "date": "2026-02-24",
     "slug": "capacity-metrics-fabric",
-    "title": "Piloter votre capacité Fabric comme un Pro",
-    "url": "https://antoinewang.substack.com/p/capacity-metrics-fabric"
+    "title": "Microsoft Fabric : Comment surveiller votre capacité comme un Pro ?",
+    "url": "https://blog.antoinewang-tech.com/p/capacity-metrics-fabric"
   },
   "2026-03-03_microsoft-fabric-top-3-des-nouveautes-2026-02.md": {
     "author": "Antoine Wang",
     "date": "2026-03-03",
     "slug": "microsoft-fabric-top-3-des-nouveautes-2026-02",
     "title": "Microsoft Fabric : Top 3 des nouveautés de Février 2026 (+ Bonus)",
-    "url": "https://antoinewang.substack.com/p/microsoft-fabric-top-3-des-nouveautes-2026-02"
+    "url": "https://blog.antoinewang-tech.com/p/microsoft-fabric-top-3-des-nouveautes-2026-02"
   },
   "2026-03-10_migration-power-bi-premium-to-fabric.md": {
     "author": "Antoine Wang",
     "date": "2026-03-10",
     "slug": "migration-power-bi-premium-to-fabric",
     "title": "Adieu Power BI Premium : Pourquoi vous devez migrer vers Fabric dès aujourd’hui",
-    "url": "https://antoinewang.substack.com/p/migration-power-bi-premium-to-fabric"
+    "url": "https://blog.antoinewang-tech.com/p/migration-power-bi-premium-to-fabric"
   },
   "2026-03-17_microsoft-fabric-onelake.md": {
     "author": "Antoine Wang",
@@ -27,12 +48,19 @@
     "title": "OneLake : Pourquoi vous devriez arrêter de déplacer vos données dès aujourd'hui",
     "url": "https://antoinewang.substack.com/p/microsoft-fabric-onelake"
   },
+  "2026-03-17_onelake-microsoft-fabric-guide.md": {
+    "author": "Antoine Wang",
+    "date": "2026-03-17",
+    "slug": "onelake-microsoft-fabric-guide",
+    "title": "Microsoft Fabric : Tout savoir sur le OneLake",
+    "url": "https://blog.antoinewang-tech.com/p/onelake-microsoft-fabric-guide"
+  },
   "2026-03-20_fabcon-and-sqlcon-2026.md": {
     "author": "Antoine Wang",
     "date": "2026-03-20",
     "slug": "fabcon-and-sqlcon-2026",
     "title": "FabCon & SQLCon 2026 : l’événement à ne pas rater !",
-    "url": "https://antoinewang.substack.com/p/fabcon-and-sqlcon-2026"
+    "url": "https://blog.antoinewang-tech.com/p/fabcon-and-sqlcon-2026"
   },
   "2026-03-24_data-store-microsoft-fabric.md": {
     "author": "Antoine Wang",
@@ -41,75 +69,82 @@
     "title": "Le secret des Data Stores de Microsoft Fabric : Lequel est fait pour vous ?",
     "url": "https://antoinewang.substack.com/p/data-store-microsoft-fabric"
   },
+  "2026-03-24_data-stores-microsoft-fabric-comparatif.md": {
+    "author": "Antoine Wang",
+    "date": "2026-03-24",
+    "slug": "data-stores-microsoft-fabric-comparatif",
+    "title": "Microsoft Fabric : Maitrisez l'écosystème des stockages de données",
+    "url": "https://blog.antoinewang-tech.com/p/data-stores-microsoft-fabric-comparatif"
+  },
   "2026-03-31_microsoft-fabric-data-ingestion-tools.md": {
     "author": "Antoine Wang",
     "date": "2026-03-31",
     "slug": "microsoft-fabric-data-ingestion-tools",
     "title": "Ingestion Microsoft Fabric : Dataflow, Pipeline ou Notebook ? Guide complet 2026",
-    "url": "https://antoinewang.substack.com/p/microsoft-fabric-data-ingestion-tools"
+    "url": "https://blog.antoinewang-tech.com/p/microsoft-fabric-data-ingestion-tools"
   },
   "2026-04-07_microsoft-fabric-top-3-des-nouveautes-2026-03.md": {
     "author": "Antoine Wang",
     "date": "2026-04-07",
     "slug": "microsoft-fabric-top-3-des-nouveautes-2026-03",
     "title": "Microsoft Fabric : Top 3 des nouveautés de Mars 2026",
-    "url": "https://antoinewang.substack.com/p/microsoft-fabric-top-3-des-nouveautes-2026-03"
+    "url": "https://blog.antoinewang-tech.com/p/microsoft-fabric-top-3-des-nouveautes-2026-03"
   },
   "2026-04-14_flux-de-taches-microsoft-fabric.md": {
     "author": "Antoine Wang",
     "date": "2026-04-14",
     "slug": "flux-de-taches-microsoft-fabric",
     "title": "Microsoft Fabric : Comment utiliser les Task Flows dans nos projets data ?",
-    "url": "https://antoinewang.substack.com/p/flux-de-taches-microsoft-fabric"
+    "url": "https://blog.antoinewang-tech.com/p/flux-de-taches-microsoft-fabric"
   },
   "2026-04-21_architecture-medaillon-microsoft-fabric.md": {
     "author": "Antoine Wang",
     "date": "2026-04-21",
     "slug": "architecture-medaillon-microsoft-fabric",
     "title": "Architecture Médaillon Microsoft Fabric : Bronze, Silver, Gold expliqués",
-    "url": "https://antoinewang.substack.com/p/architecture-medaillon-microsoft-fabric"
+    "url": "https://blog.antoinewang-tech.com/p/architecture-medaillon-microsoft-fabric"
   },
   "2026-04-28_gouvernance-workspaces-microsoft-fabric.md": {
     "author": "Antoine Wang",
     "date": "2026-04-28",
     "slug": "gouvernance-workspaces-microsoft-fabric",
     "title": "Microsoft Fabric : Bonnes pratiques pour la Gouvernance des workspaces",
-    "url": "https://antoinewang.substack.com/p/gouvernance-workspaces-microsoft-fabric"
+    "url": "https://blog.antoinewang-tech.com/p/gouvernance-workspaces-microsoft-fabric"
   },
   "2026-05-05_powerbi-top-3-des-nouveautes-2026-04.md": {
     "author": "Antoine Wang",
     "date": "2026-05-05",
     "slug": "powerbi-top-3-des-nouveautes-2026-04",
     "title": "Power BI : Top 3 des nouveautés d'Avril 2026",
-    "url": "https://antoinewang.substack.com/p/powerbi-top-3-des-nouveautes-2026-04"
+    "url": "https://blog.antoinewang-tech.com/p/powerbi-top-3-des-nouveautes-2026-04"
   },
   "2026-05-07_microsoft-fabric-top-3-nouveautes-2026-04.md": {
     "author": "Antoine Wang",
     "date": "2026-05-07",
     "slug": "microsoft-fabric-top-3-nouveautes-2026-04",
     "title": "Microsoft Fabric : Top 3 des nouveautés d'Avril 2026",
-    "url": "https://antoinewang.substack.com/p/microsoft-fabric-top-3-nouveautes-2026-04"
+    "url": "https://blog.antoinewang-tech.com/p/microsoft-fabric-top-3-nouveautes-2026-04"
   },
   "2026-05-12_deployment-pipelines-microsoft-fabric.md": {
     "author": "Antoine Wang",
     "date": "2026-05-12",
     "slug": "deployment-pipelines-microsoft-fabric",
     "title": "Microsoft Fabric : Comment gérer les pipelines de déploiement ?",
-    "url": "https://antoinewang.substack.com/p/deployment-pipelines-microsoft-fabric"
+    "url": "https://blog.antoinewang-tech.com/p/deployment-pipelines-microsoft-fabric"
   },
   "2026-05-19_variable-library-microsoft-fabric.md": {
     "author": "Antoine Wang",
     "date": "2026-05-19",
     "slug": "variable-library-microsoft-fabric",
     "title": "Microsoft Fabric : Configuration et Bonnes Pratiques des Variable Library",
-    "url": "https://antoinewang.substack.com/p/variable-library-microsoft-fabric"
+    "url": "https://blog.antoinewang-tech.com/p/variable-library-microsoft-fabric"
   },
   "2026-05-26_securite-microsoft-fabric.md": {
     "author": "Antoine Wang",
     "date": "2026-05-26",
     "slug": "securite-microsoft-fabric",
     "title": "RLS, CLS, OLS Microsoft Fabric : le guide sécurité des données 2026",
-    "url": "https://antoinewang.substack.com/p/securite-microsoft-fabric"
+    "url": "https://blog.antoinewang-tech.com/p/securite-microsoft-fabric"
   },
   "2026-06-02_copilot-data-flow-gen2-microsoft-fabric.md": {
     "author": "Antoine Wang",
@@ -123,7 +158,7 @@
     "date": "2026-06-02",
     "slug": "copilot-dataflow-gen2-microsoft-fabric",
     "title": "Microsoft Fabric : Explorer tout le potentiel de Copilot dans Dataflow Gen2",
-    "url": "https://antoinewang.substack.com/p/copilot-dataflow-gen2-microsoft-fabric"
+    "url": "https://blog.antoinewang-tech.com/p/copilot-dataflow-gen2-microsoft-fabric"
   },
   "2026-06-04_microsoft-fabric-top-3-des-nouveautes-4a7.md": {
     "author": "Antoine Wang",
@@ -137,14 +172,14 @@
     "date": "2026-06-04",
     "slug": "microsoft-fabric-top-3-nouveautes-2026-06",
     "title": "Microsoft Fabric : Top 3 des nouveautés de Juin 2026",
-    "url": "https://antoinewang.substack.com/p/microsoft-fabric-top-3-nouveautes-2026-06"
+    "url": "https://blog.antoinewang-tech.com/p/microsoft-fabric-top-3-nouveautes-2026-06"
   },
   "2026-06-09_microsoft-fabric-mise-en-production-checklist.md": {
     "author": "Antoine Wang",
     "date": "2026-06-09",
     "slug": "microsoft-fabric-mise-en-production-checklist",
     "title": "Microsoft Fabric en production : la checklist en 10 points avant le Go Live",
-    "url": "https://antoinewang.substack.com/p/microsoft-fabric-mise-en-production-checklist"
+    "url": "https://blog.antoinewang-tech.com/p/microsoft-fabric-mise-en-production-checklist"
   },
   "2026-06-09_microsoft-fabric-production-ready.md": {
     "author": "Antoine Wang",
@@ -165,49 +200,56 @@
     "date": "2026-06-11",
     "slug": "power-bi-nouveautes-juin-2026",
     "title": "Top 3 des nouveautés Power BI de juin 2026",
-    "url": "https://antoinewang.substack.com/p/power-bi-nouveautes-juin-2026"
+    "url": "https://blog.antoinewang-tech.com/p/power-bi-nouveautes-juin-2026"
   },
   "2026-06-16_secure-connexion-source-microsoft-fabric.md": {
     "author": "Antoine Wang",
     "date": "2026-06-16",
     "slug": "secure-connexion-source-microsoft-fabric",
     "title": "Sécuriser les connexions Microsoft Fabric : bonnes pratiques et service principal",
-    "url": "https://antoinewang.substack.com/p/secure-connexion-source-microsoft-fabric"
+    "url": "https://blog.antoinewang-tech.com/p/secure-connexion-source-microsoft-fabric"
   },
   "2026-06-23_rayfin-fabric-apps-demo.md": {
     "author": "Antoine Wang",
     "date": "2026-06-23",
     "slug": "rayfin-fabric-apps-demo",
     "title": "Microsoft Fabric : Comment utiliser Rayfin et les Apps ? (+démo)",
-    "url": "https://antoinewang.substack.com/p/rayfin-fabric-apps-demo"
+    "url": "https://blog.antoinewang-tech.com/p/rayfin-fabric-apps-demo"
   },
   "2026-06-30_vnet-data-gateway-microsoft-fabric.md": {
     "author": "Antoine Wang",
     "date": "2026-06-30",
     "slug": "vnet-data-gateway-microsoft-fabric",
     "title": "Microsoft Fabric & VNet : Le Guide Sécurité Data Gateway",
-    "url": "https://antoinewang.substack.com/p/vnet-data-gateway-microsoft-fabric"
+    "url": "https://blog.antoinewang-tech.com/p/vnet-data-gateway-microsoft-fabric"
   },
   "2026-07-07_microsoft-fabric-data-agent-copilot.md": {
     "author": "Antoine Wang",
     "date": "2026-07-07",
     "slug": "microsoft-fabric-data-agent-copilot",
     "title": "Fabric Data Agent vs Copilot : les 3 différences qui comptent en 2026",
-    "url": "https://antoinewang.substack.com/p/microsoft-fabric-data-agent-copilot"
+    "url": "https://blog.antoinewang-tech.com/p/microsoft-fabric-data-agent-copilot"
   },
   "2026-07-14_fabric-copilot-capacity-dedicated.md": {
     "author": "Antoine Wang",
     "date": "2026-07-14",
     "slug": "fabric-copilot-capacity-dedicated",
-    "title": "Microsoft Fabric : Copilot Capacity",
-    "url": "https://antoinewang.substack.com/p/fabric-copilot-capacity-dedicated"
+    "title": "Fabric Copilot Capacity (FCC) : le guide 2026 pour activer Copilot sans throttling",
+    "url": "https://blog.antoinewang-tech.com/p/fabric-copilot-capacity-dedicated"
   },
   "2026-07-21_direct-lake-voici-ce-que-cest-vraiment.md": {
     "author": "Antoine Wang",
     "date": "2026-07-21",
     "slug": "direct-lake-voici-ce-que-cest-vraiment",
     "title": "Direct Lake en production : Configuration, fallback Import/DQ, performance réelle, limites",
-    "url": "https://antoinewang.substack.com/p/direct-lake-voici-ce-que-cest-vraiment"
+    "url": "https://blog.antoinewang-tech.com/p/direct-lake-voici-ce-que-cest-vraiment"
+  },
+  "2026-07-28_dataflow-gen1-vs-gen2-microsoft-fabric.md": {
+    "author": "Antoine Wang",
+    "date": "2026-07-28",
+    "slug": "dataflow-gen1-vs-gen2-microsoft-fabric",
+    "title": "Dataflow Gen1 vs Gen2 : faut-il migrer maintenant ?",
+    "url": "https://blog.antoinewang-tech.com/p/dataflow-gen1-vs-gen2-microsoft-fabric"
   },
   "undated_capacity-metrics-fabric.md": {
     "author": "Antoine Wang",
