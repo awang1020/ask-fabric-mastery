@@ -543,6 +543,9 @@ def _render_message(msg: dict, language: str) -> None:
             st.markdown(content)
         if role == "assistant":
             _render_sources(msg.get("sources", []), language)
+            if content.strip():
+                with st.expander(f"📋  {t(language, 'copy_answer')}", expanded=False):
+                    st.code(content, language="markdown", wrap_lines=True)
 
 
 def _sources_dict(sources: list[Source]) -> list[dict]:
@@ -621,6 +624,20 @@ def _sidebar(language: str) -> str:
     return st.session_state["language"]
 
 
+def _new_conversation_bar(language: str) -> None:
+    """Right-aligned pill above the chat that wipes history + memory."""
+    _, right = st.columns([3, 1])
+    with right:
+        if st.button(
+            f"🆕  {t(language, 'new_conversation')}",
+            key="afm-new-conv",
+            use_container_width=True,
+        ):
+            st.session_state["messages"] = []
+            _reset_engine()
+            st.rerun()
+
+
 # ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
@@ -653,6 +670,8 @@ def main() -> None:
             selected_example = _example_cards(language)
         else:
             st.info(t(language, "no_index"))
+    else:
+        _new_conversation_bar(language)
 
     # Replay history
     for msg in st.session_state["messages"]:
@@ -664,9 +683,8 @@ def main() -> None:
 
     if not prompt:
         if not st.session_state["messages"]:
-            n = max(n_sources, 1)
             st.markdown(
-                f'<div class="afm-footer">{t(language, "footer", n=n)}</div>',
+                f'<div class="afm-footer">{t(language, "footer")}</div>',
                 unsafe_allow_html=True,
             )
         return
@@ -706,6 +724,9 @@ def main() -> None:
 
         sources_payload = _sources_dict(turn.sources)
         _render_sources(sources_payload, language)
+        if turn.answer.strip():
+            with st.expander(f"📋  {t(language, 'copy_answer')}", expanded=False):
+                st.code(turn.answer, language="markdown", wrap_lines=True)
 
     st.session_state["messages"].append(
         {"role": "assistant", "content": turn.answer, "sources": sources_payload}

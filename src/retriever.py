@@ -15,6 +15,14 @@ def build_retriever(
     return VectorIndexRetriever(index=index, similarity_top_k=s.top_k)
 
 
-def build_postprocessors(settings: Settings | None = None) -> list[SimilarityPostprocessor]:
+def build_postprocessors(settings: Settings | None = None) -> list:
     s = settings or get_settings()
-    return [SimilarityPostprocessor(similarity_cutoff=s.similarity_cutoff)]
+    procs: list = [SimilarityPostprocessor(similarity_cutoff=s.similarity_cutoff)]
+    if s.use_llm_rerank:
+        # Imported lazily so environments that never enable rerank do not pay the import cost.
+        from llama_index.core.postprocessor import LLMRerank
+
+        from .models import build_llm
+
+        procs.append(LLMRerank(top_n=s.rerank_top_n, llm=build_llm(s)))
+    return procs

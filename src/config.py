@@ -40,6 +40,14 @@ class Settings(BaseSettings):
     temperature: float = Field(0.1, ge=0.0, le=2.0)
     max_tokens: int = Field(1024, ge=64, le=16384)
 
+    # --- Citation display (stricter than retrieval; drives what the UI shows).
+    max_citations: int = Field(3, ge=1, le=10)
+    citation_similarity_cutoff: float = Field(0.35, ge=0.0, le=1.0)
+
+    # --- Reranking (opt-in; adds one LLM call per query).
+    use_llm_rerank: bool = False
+    rerank_top_n: int = Field(6, ge=1, le=20)
+
     # --- UI -----------------------------------------------------------------
     default_language: str = "en"
 

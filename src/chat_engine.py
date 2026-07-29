@@ -158,34 +158,59 @@ def _refusal(language: str) -> str:
     )
 
 
-def ask(engine: ContextChatEngine, query: str, language: str = "en") -> ChatTurn:
-    """Run a single query through the chat engine and capture sources.
+def _rank_and_filter_sources(nodes: list, settings) -> tuple[list[Source], float]:
+    """Sort by score desc, dedup per article, apply citation threshold + max cap.
 
-    Sources are de-duplicated by URL (falling back to filename) so the UI only
-    surfaces distinct posts even when multiple chunks of the same article match.
-    If ``query`` looks like a prompt-injection / jailbreak attempt, the LLM is
-    bypassed and the canonical refusal line is returned instead.
+    Returns (citations, top_raw_score). If the threshold filters everything but the
+    retriever did find nodes, keep the strongest one so the answer is always
+    verifiable via at least one link.
     """
-    if looks_like_jailbreak(query):
-        return ChatTurn(answer=_refusal(language), sources=[], raw_response=None)
-
-    response = engine.chat(query)
+    raw = [Source.from_node(n) for n in (nodes or [])]
+    top_score = max((s.score or 0.0 for s in raw), default=0.0)
+    raw.sort(key=lambda s: (s.score or 0.0), reverse=True)
 
     seen: set[str] = set()
-    sources: list[Source] = []
-    for node in (getattr(response, "source_nodes", None) or []):
-        src = Source.from_node(node)
+    deduped: list[Source] = []
+    for src in raw:
         key = src.url or src.file_name
         if key in seen:
             continue
         seen.add(key)
-        sources.append(src)
+        deduped.append(src)
+
+    threshold = settings.citation_similarity_cutoff
+    strong = [s for s in deduped if (s.score or 0.0) >= threshold]
+    citations = (strong or deduped[:1])[: settings.max_citations]
+    return citations, top_score
+
+
+def ask(engine: ContextChatEngine, query: str, language: str = "en") -> ChatTurn:
+    """Run a single query through the chat engine and capture sources.
+
+    Sources are ranked by relevance score, de-duplicated per article (URL, then
+    filename), filtered by ``citation_similarity_cutoff`` and capped at
+    ``max_citations`` so the UI only surfaces the strongest distinct posts.
+    Jailbreak / prompt-injection attempts bypass the LLM and return the
+    canonical refusal line.
+    """
+    if looks_like_jailbreak(query):
+        return ChatTurn(answer=_refusal(language), sources=[], raw_response=None)
+
+    settings = get_settings()
+    response = engine.chat(query)
+
+    nodes = getattr(response, "source_nodes", None) or []
+    sources, top_score = _rank_and_filter_sources(nodes, settings)
+    log.info(
+        "RAG confidence — top_score=%.3f, candidates=%d, citations=%d",
+        top_score, len(nodes), len(sources),
+    )
 
     answer = str(response).strip()
     # LlamaIndex returns the literal string "Empty Response" when every node
     # is filtered out by the similarity cutoff. That happens for off-topic
     # questions (no chunk is close enough). Surface the canonical refusal.
-    if not answer or answer.lower() == "empty response" or not sources:
+    if not answer or answer.lower() == "empty response" or not nodes:
         return ChatTurn(answer=_refusal(language), sources=[], raw_response=response)
 
     return ChatTurn(answer=answer, sources=sources, raw_response=response)
