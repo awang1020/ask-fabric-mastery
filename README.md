@@ -2,7 +2,7 @@
 
 Production-ready Retrieval-Augmented Generation chatbot that answers
 Microsoft Fabric and Power BI questions **strictly** from the
-[Fabric Mastery newsletter](https://antoinewang.substack.com/) archive.
+[Fabric Mastery newsletter](https://blog.antoinewang-tech.com/) archive.
 No hallucination, every answer cited with a direct link to the source
 edition.
 
@@ -537,4 +537,4 @@ az containerapp update -g rg-ask-fabric-mastery -n ask-fabric-mastery `
 
 ## License
 
-MIT. Newsletter content remains © [Antoine Wang](https://antoinewang.substack.com/).
+MIT. Newsletter content remains © [Antoine Wang](https://blog.antoinewang-tech.com/).
