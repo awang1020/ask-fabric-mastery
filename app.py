@@ -543,9 +543,6 @@ def _render_message(msg: dict, language: str) -> None:
             st.markdown(content)
         if role == "assistant":
             _render_sources(msg.get("sources", []), language)
-            if content.strip():
-                with st.expander(f"📋  {t(language, 'copy_answer')}", expanded=False):
-                    st.code(content, language="markdown", wrap_lines=True)
 
 
 def _sources_dict(sources: list[Source]) -> list[dict]:
@@ -625,13 +622,13 @@ def _sidebar(language: str) -> str:
 
 
 def _new_conversation_bar(language: str) -> None:
-    """Right-aligned pill above the chat that wipes history + memory."""
-    _, right = st.columns([3, 1])
+    """Discreet right-aligned button above the chat that wipes history + memory."""
+    _, right = st.columns([8, 2])
     with right:
         if st.button(
-            f"🆕  {t(language, 'new_conversation')}",
+            f"↻  {t(language, 'new_conversation')}",
             key="afm-new-conv",
-            use_container_width=True,
+            type="secondary",
         ):
             st.session_state["messages"] = []
             _reset_engine()
@@ -724,9 +721,6 @@ def main() -> None:
 
         sources_payload = _sources_dict(turn.sources)
         _render_sources(sources_payload, language)
-        if turn.answer.strip():
-            with st.expander(f"📋  {t(language, 'copy_answer')}", expanded=False):
-                st.code(turn.answer, language="markdown", wrap_lines=True)
 
     st.session_state["messages"].append(
         {"role": "assistant", "content": turn.answer, "sources": sources_payload}
