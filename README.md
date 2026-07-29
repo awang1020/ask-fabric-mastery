@@ -6,7 +6,7 @@ Microsoft Fabric and Power BI questions **strictly** from the
 No hallucination, every answer cited with a direct link to the source
 edition.
 
-**Live app:** <https://ask-fabric-mastery.orangecoast-0153fc35.swedencentral.azurecontainerapps.io>
+**Live app:** <https://chat.antoinewang-tech.com>
 **Repo:** <https://github.com/awang1020/ask-fabric-mastery>
 
 | Concern         | Choice |
