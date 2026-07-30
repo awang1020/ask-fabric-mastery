@@ -23,7 +23,7 @@ class Settings(BaseSettings):
     azure_openai_chat_deployment: str = Field(..., min_length=1)
     azure_openai_chat_model: str = "gpt-4o-mini"
     azure_openai_embedding_deployment: str = Field(..., min_length=1)
-    azure_openai_embedding_model: str = "text-embedding-3-small"
+    azure_openai_embedding_model: str = "text-embedding-3-large"
 
     # --- Paths --------------------------------------------------------------
     data_dir: Path = Path("./data/newsletters")
@@ -31,11 +31,11 @@ class Settings(BaseSettings):
     collection_name: str = "fabric_mastery"
 
     # --- Indexing -----------------------------------------------------------
-    chunk_size: int = Field(1024, ge=128, le=8192)
+    chunk_size: int = Field(512, ge=128, le=8192)
     chunk_overlap: int = Field(128, ge=0, le=2048)
 
     # --- Retrieval & generation --------------------------------------------
-    top_k: int = Field(10, ge=1, le=50)
+    top_k: int = Field(20, ge=1, le=50)
     similarity_cutoff: float = Field(0.22, ge=0.0, le=1.0)
     temperature: float = Field(0.1, ge=0.0, le=2.0)
     max_tokens: int = Field(1024, ge=64, le=16384)
@@ -44,8 +44,8 @@ class Settings(BaseSettings):
     max_citations: int = Field(3, ge=1, le=10)
     citation_similarity_cutoff: float = Field(0.35, ge=0.0, le=1.0)
 
-    # --- Reranking (opt-in; adds one LLM call per query).
-    use_llm_rerank: bool = False
+    # --- Reranking (LLM call per query; big precision boost, +1-2s latency).
+    use_llm_rerank: bool = True
     rerank_top_n: int = Field(6, ge=1, le=20)
 
     # --- UI -----------------------------------------------------------------

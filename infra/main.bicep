@@ -27,10 +27,10 @@ param chatSkuName string = 'GlobalStandard'
 param chatCapacity int = 50
 
 @description('Embedding deployment name (used by the app).')
-param embeddingDeployment string = 'text-embedding-3-small'
+param embeddingDeployment string = 'text-embedding-3-large'
 
 @description('Underlying embedding model.')
-param embeddingModel string = 'text-embedding-3-small'
+param embeddingModel string = 'text-embedding-3-large'
 
 @description('Embedding model version.')
 param embeddingModelVersion string = '1'

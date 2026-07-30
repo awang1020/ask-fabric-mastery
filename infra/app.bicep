@@ -33,10 +33,10 @@ param chatDeployment string = 'gpt-4o-mini'
 param chatModel string = 'gpt-4o-mini'
 
 @description('Container embedding deployment name.')
-param embeddingDeployment string = 'text-embedding-3-small'
+param embeddingDeployment string = 'text-embedding-3-large'
 
 @description('Container embedding model id.')
-param embeddingModel string = 'text-embedding-3-small'
+param embeddingModel string = 'text-embedding-3-large'
 
 @description('Default UI language (en or fr).')
 @allowed([ 'en', 'fr' ])
