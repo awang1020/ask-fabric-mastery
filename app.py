@@ -498,8 +498,8 @@ def _example_cards(language: str) -> None:
     the welcome screen disappears atomically instead of lingering for a frame.
     """
     examples = [
-        ("�️", t(language, "ex_lakehouse_title"), t(language, "ex_lakehouse_prompt")),
-        ("🤖", t(language, "ex_agent_title"), t(language, "ex_agent_prompt")),
+        ("🛡️", t(language, "ex_lakehouse_title"), t(language, "ex_lakehouse_prompt")),
+        ("🏛️", t(language, "ex_agent_title"), t(language, "ex_agent_prompt")),
         ("📥", t(language, "ex_ingestion_title"), t(language, "ex_ingestion_prompt")),
         ("⚡", t(language, "ex_capacity_title"), t(language, "ex_capacity_prompt")),
     ]
@@ -767,8 +767,14 @@ def main() -> None:
                 token_gen, response, prebuilt_turn = start_stream(
                     engine, prompt, language=language,
                 )
-            with answer_slot.container():
-                streamed_answer = st.write_stream(token_gen)
+            # Manual iteration + placeholder.markdown() is what actually streams;
+            # st.write_stream() nested inside an st.empty().container() buffers
+            # every update and reveals the whole answer at once.
+            streamed_answer = ""
+            for chunk in token_gen:
+                streamed_answer += chunk
+                answer_slot.markdown(streamed_answer + " ▌")
+            answer_slot.markdown(streamed_answer)
         except Exception as exc:  # noqa: BLE001 — UI boundary
             _report_error(language, exc)
             st.session_state["messages"].append(
