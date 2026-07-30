@@ -374,6 +374,18 @@ section[data-testid="stSidebar"] [data-testid="stMetricValue"] {{
 .afm-confidence-medium {{ background: rgba(234,179,8,0.15); color: #854D0E; }}
 .afm-confidence-low {{ background: rgba(239,68,68,0.10); color: #B91C1C; }}
 
+/* ---- new-conversation bar ---- */
+.afm-newconv-label {{
+    text-align: right;
+    font-size: 0.85rem;
+    color: #6E6E73;
+    padding-top: 0.55rem;
+    padding-right: 0.4rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}}
+
 /* spinner color */
 [data-testid="stSpinner"] {{ color: {ACCENT} !important; }}
 
@@ -649,9 +661,14 @@ def _sidebar(language: str) -> str:
 
 
 def _new_conversation_bar(language: str) -> None:
-    """Tiny icon-only button top-right that wipes history + memory."""
-    _, right = st.columns([12, 1])
-    with right:
+    """Right-aligned label + tiny refresh button that wipes history + memory."""
+    _, label_col, btn_col = st.columns([9, 2.5, 0.7])
+    with label_col:
+        st.markdown(
+            f'<div class="afm-newconv-label">{t(language, "new_conversation")}</div>',
+            unsafe_allow_html=True,
+        )
+    with btn_col:
         if st.button(
             "↻",
             key="afm-new-conv",
