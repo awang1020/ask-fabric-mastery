@@ -459,8 +459,10 @@ def _hero(language: str, n_sources: int) -> None:
     )
 
 
-def _example_cards(language: str) -> str | None:
-    """Render four prompt cards. Returns the chosen prompt or None."""
+def _example_cards(language: str) -> None:
+    """Render four prompt cards. On click, queue the prompt and rerun so
+    the welcome screen disappears atomically instead of lingering for a frame.
+    """
     examples = [
         ("🏛️", t(language, "ex_arch_title"), t(language, "ex_arch_prompt")),
         ("🛡️", t(language, "ex_sec_title"), t(language, "ex_sec_prompt")),
@@ -468,14 +470,13 @@ def _example_cards(language: str) -> str | None:
         ("⚡", t(language, "ex_capacity_title"), t(language, "ex_capacity_prompt")),
     ]
 
-    chosen: str | None = None
     cols = st.columns(2, gap="medium")
     for i, (icon, title, prompt) in enumerate(examples):
         with cols[i % 2]:
             label = f"{icon}  **{title}**\n\n{prompt}"
             if st.button(label, key=f"example_{i}", use_container_width=True):
-                chosen = prompt
-    return chosen
+                st.session_state["pending_question"] = prompt
+                st.rerun()
 
 
 def _render_sources(sources: list[dict], language: str) -> None:
@@ -660,11 +661,15 @@ def main() -> None:
     engine = _get_engine(language)
     n_sources = _stats_count()
 
-    selected_example: str | None = None
-    if not st.session_state["messages"]:
+    # A queued prompt (from an example-card click) counts as "conversation started"
+    # so the welcome screen never lingers on the frame that processes it.
+    has_pending = bool(st.session_state.get("pending_question"))
+    has_history = bool(st.session_state["messages"])
+
+    if not has_history and not has_pending:
         _hero(language, n_sources)
         if engine is not None:
-            selected_example = _example_cards(language)
+            _example_cards(language)
         else:
             st.info(t(language, "no_index"))
     else:
@@ -676,7 +681,7 @@ def main() -> None:
 
     # Chat input is always at the bottom
     typed_prompt = st.chat_input(t(language, "ask_placeholder"))
-    prompt = typed_prompt or selected_example or st.session_state.pop("pending_question", None)
+    prompt = typed_prompt or st.session_state.pop("pending_question", None)
 
     if not prompt:
         if not st.session_state["messages"]:
