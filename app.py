@@ -10,7 +10,14 @@ from typing import Any
 
 import streamlit as st
 
-from src.chat_engine import Source, ask, build_chat_engine, refresh_sources_index
+from src.chat_engine import (
+    Source,
+    ask,
+    build_chat_engine,
+    finalize_stream,
+    refresh_sources_index,
+    start_stream,
+)
 from src.config import get_settings
 from src.i18n import t
 from src.indexer import build_index, index_stats, load_index
@@ -753,28 +760,46 @@ def main() -> None:
         return
 
     with st.chat_message("assistant", avatar="📘"):
-        with st.spinner(t(language, "thinking")):
-            try:
-                turn = ask(engine, prompt, language=language)
-            except Exception as exc:  # noqa: BLE001 — UI boundary
-                _report_error(language, exc)
-                st.session_state["messages"].append(
-                    {"role": "assistant", "content": t(language, "error", err=str(exc)), "sources": [], "confidence": "low"}
+        confidence_slot = st.empty()
+        answer_slot = st.empty()
+        try:
+            with st.spinner(t(language, "thinking")):
+                token_gen, response, prebuilt_turn = start_stream(
+                    engine, prompt, language=language,
                 )
-                return
+            with answer_slot.container():
+                streamed_answer = st.write_stream(token_gen)
+        except Exception as exc:  # noqa: BLE001 — UI boundary
+            _report_error(language, exc)
+            st.session_state["messages"].append(
+                {"role": "assistant", "content": t(language, "error", err=str(exc)), "sources": [], "confidence": "low"}
+            )
+            return
 
-        cannot = t(language, "cannot_answer")
-        _render_confidence(turn.confidence, language)
-        if turn.answer.strip().startswith(cannot.split(".")[0]):
-            st.markdown(f'<div class="afm-limitation">{turn.answer}</div>', unsafe_allow_html=True)
-        else:
-            st.markdown(turn.answer)
+        turn = prebuilt_turn or finalize_stream(response, streamed_answer or "", language)
+
+        with confidence_slot.container():
+            _render_confidence(turn.confidence, language)
+
+        # finalize_stream may swap the streamed body for the canonical refusal
+        # (empty retrieval, empty response, etc.) — reflect that verdict in-place.
+        if (streamed_answer or "").strip() != turn.answer.strip():
+            answer_slot.empty()
+            with answer_slot.container():
+                cannot = t(language, "cannot_answer")
+                if turn.answer.strip().startswith(cannot.split(".")[0]):
+                    st.markdown(
+                        f'<div class="afm-limitation">{turn.answer}</div>',
+                        unsafe_allow_html=True,
+                    )
+                else:
+                    st.markdown(turn.answer)
 
         sources_payload = _sources_dict(turn.sources)
         _render_sources(sources_payload, language)
 
     st.session_state["messages"].append(
-        {"role": "assistant", "content": turn.answer, "sources": sources_payload}
+        {"role": "assistant", "content": turn.answer, "sources": sources_payload, "confidence": turn.confidence}
     )
 
 

@@ -195,14 +195,7 @@ def _confidence_level(top_score: float, has_citations: bool) -> str:
 
 
 def ask(engine: ContextChatEngine, query: str, language: str = "en") -> ChatTurn:
-    """Run a single query through the chat engine and capture sources.
-
-    Sources are ranked by relevance score, de-duplicated per article (URL, then
-    filename), filtered by ``citation_similarity_cutoff`` and capped at
-    ``max_citations`` so the UI only surfaces the strongest distinct posts.
-    Jailbreak / prompt-injection attempts bypass the LLM and return the
-    canonical refusal line.
-    """
+    """Blocking single-shot query. Kept for callers that don't stream."""
     if looks_like_jailbreak(query):
         return ChatTurn(answer=_refusal(language), sources=[], confidence="low", raw_response=None)
 
@@ -218,12 +211,52 @@ def ask(engine: ContextChatEngine, query: str, language: str = "en") -> ChatTurn
     )
 
     answer = str(response).strip()
-    # LlamaIndex returns the literal string "Empty Response" when every node
-    # is filtered out by the similarity cutoff. That happens for off-topic
-    # questions (no chunk is close enough). Surface the canonical refusal.
     if not answer or answer.lower() == "empty response" or not nodes:
         return ChatTurn(
             answer=_refusal(language), sources=[], confidence="low", raw_response=response,
         )
+    return ChatTurn(answer=answer, sources=sources, confidence=confidence, raw_response=response)
 
+
+def start_stream(engine: ContextChatEngine, query: str, language: str = "en"):
+    """Kick off a streamed answer.
+
+    Returns ``(token_gen, response_handle, prebuilt_turn)``. When the query
+    matches a jailbreak pattern, ``prebuilt_turn`` carries the canonical
+    refusal so the caller can skip the LLM entirely and still yield the
+    refusal line through ``token_gen`` for a consistent UI path.
+    """
+    if looks_like_jailbreak(query):
+        refusal = _refusal(language)
+        prebuilt = ChatTurn(answer=refusal, sources=[], confidence="low", raw_response=None)
+        return iter([refusal]), None, prebuilt
+
+    response = engine.stream_chat(query)
+    return response.response_gen, response, None
+
+
+def finalize_stream(response, streamed_answer: str, language: str) -> ChatTurn:
+    """Build the ChatTurn after the streaming generator has been consumed."""
+    if response is None:
+        return ChatTurn(
+            answer=(streamed_answer or "").strip(),
+            sources=[],
+            confidence="low",
+            raw_response=None,
+        )
+
+    settings = get_settings()
+    nodes = getattr(response, "source_nodes", None) or []
+    sources, top_score = _rank_and_filter_sources(nodes, settings)
+    confidence = _confidence_level(top_score, bool(sources))
+    log.info(
+        "RAG confidence — level=%s, top_score=%.3f, candidates=%d, citations=%d",
+        confidence, top_score, len(nodes), len(sources),
+    )
+
+    answer = (streamed_answer or "").strip()
+    if not answer or answer.lower() == "empty response" or not nodes:
+        return ChatTurn(
+            answer=_refusal(language), sources=[], confidence="low", raw_response=response,
+        )
     return ChatTurn(answer=answer, sources=sources, confidence=confidence, raw_response=response)
