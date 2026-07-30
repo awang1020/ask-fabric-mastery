@@ -251,55 +251,6 @@
     "title": "Dataflow Gen1 vs Gen2 : faut-il migrer maintenant ?",
     "url": "https://blog.antoinewang-tech.com/p/dataflow-gen1-vs-gen2-microsoft-fabric"
   },
-  "undated_capacity-metrics-fabric.md": {
-    "author": "Antoine Wang",
-    "date": "",
-    "slug": "capacity-metrics-fabric",
-    "title": "Microsoft Fabric : Comment surveiller votre capacité comme un Pro ?",
-    "url": "https://antoinewang.substack.com/p/capacity-metrics-fabric"
-  },
-  "undated_data-stores-microsoft-fabric-comparatif.md": {
-    "author": "Antoine Wang",
-    "date": "",
-    "slug": "data-stores-microsoft-fabric-comparatif",
-    "title": "Microsoft Fabric : Maitrisez l'écosystème des stockages de données",
-    "url": "https://antoinewang.substack.com/p/data-stores-microsoft-fabric-comparatif"
-  },
-  "undated_fabcon-and-sqlcon-2026.md": {
-    "author": "Antoine Wang",
-    "date": "",
-    "slug": "fabcon-and-sqlcon-2026",
-    "title": "FabCon & SQLCon 2026 : l’événement à ne pas rater !",
-    "url": "https://antoinewang.substack.com/p/fabcon-and-sqlcon-2026"
-  },
-  "undated_microsoft-fabric-copilot-powerbi.md": {
-    "author": "Antoine Wang",
-    "date": "",
-    "slug": "microsoft-fabric-copilot-powerbi",
-    "title": "Power BI : Fini la page blanche avec Copilot",
-    "url": "https://antoinewang.substack.com/p/microsoft-fabric-copilot-powerbi"
-  },
-  "undated_microsoft-fabric-onelake.md": {
-    "author": "Antoine Wang",
-    "date": "",
-    "slug": "microsoft-fabric-onelake",
-    "title": "Microsoft Fabric : OneLake",
-    "url": "https://antoinewang.substack.com/p/microsoft-fabric-onelake"
-  },
-  "undated_microsoft-fabric-revolution-ou-rebranding.md": {
-    "author": "Antoine Wang",
-    "date": "",
-    "slug": "microsoft-fabric-revolution-ou-rebranding",
-    "title": "Microsoft Fabric : Révolution ou simple rebranding ?",
-    "url": "https://antoinewang.substack.com/p/microsoft-fabric-revolution-ou-rebranding"
-  },
-  "undated_microsoft-fabric-top-3-des-nouveautes-2026-02.md": {
-    "author": "Antoine Wang",
-    "date": "",
-    "slug": "microsoft-fabric-top-3-des-nouveautes-2026-02",
-    "title": "Microsoft Fabric : Top 3 des nouveautés de Février 2026 (+ Bonus)",
-    "url": "https://antoinewang.substack.com/p/microsoft-fabric-top-3-des-nouveautes-2026-02"
-  },
   "undated_microsoft-fabric-top-3-des-nouveautes.md": {
     "author": "Antoine Wang",
     "date": "",
@@ -307,32 +258,11 @@
     "title": "Microsoft Fabric : Top 3 des nouveautés de Janvier 2026",
     "url": "https://antoinewang.substack.com/p/microsoft-fabric-top-3-des-nouveautes"
   },
-  "undated_microsoft-fabric-top-3-nouveautes-2026-01.md": {
-    "author": "Antoine Wang",
-    "date": "",
-    "slug": "microsoft-fabric-top-3-nouveautes-2026-01",
-    "title": "Microsoft Fabric : Top 3 des nouveautés de Janvier 2026",
-    "url": "https://antoinewang.substack.com/p/microsoft-fabric-top-3-nouveautes-2026-01"
-  },
   "undated_microsoft-fabric.md": {
     "author": "Antoine Wang",
     "date": "",
     "slug": "microsoft-fabric",
     "title": "Microsoft Fabric : Révolution ou simple rebranding ?",
     "url": "https://antoinewang.substack.com/p/microsoft-fabric"
-  },
-  "undated_migration-power-bi-premium-to-fabric.md": {
-    "author": "Antoine Wang",
-    "date": "",
-    "slug": "migration-power-bi-premium-to-fabric",
-    "title": "Adieu Power BI Premium : Pourquoi vous devez migrer vers Fabric dès aujourd’hui",
-    "url": "https://antoinewang.substack.com/p/migration-power-bi-premium-to-fabric"
-  },
-  "undated_onelake-microsoft-fabric-guide.md": {
-    "author": "Antoine Wang",
-    "date": "",
-    "slug": "onelake-microsoft-fabric-guide",
-    "title": "Microsoft Fabric : Tout savoir sur le OneLake",
-    "url": "https://antoinewang.substack.com/p/onelake-microsoft-fabric-guide"
   }
 }

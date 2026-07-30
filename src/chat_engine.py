@@ -126,6 +126,7 @@ class Source:
 class ChatTurn:
     answer: str
     sources: list[Source]
+    confidence: str = "medium"  # "high" | "medium" | "low"
     raw_response: Any | None = None
 
 
@@ -184,6 +185,16 @@ def _rank_and_filter_sources(nodes: list, settings) -> tuple[list[Source], float
     return citations, top_score
 
 
+def _confidence_level(top_score: float, has_citations: bool) -> str:
+    if not has_citations:
+        return "low"
+    if top_score >= 0.50:
+        return "high"
+    if top_score >= 0.35:
+        return "medium"
+    return "low"
+
+
 def ask(engine: ContextChatEngine, query: str, language: str = "en") -> ChatTurn:
     """Run a single query through the chat engine and capture sources.
 
@@ -194,16 +205,17 @@ def ask(engine: ContextChatEngine, query: str, language: str = "en") -> ChatTurn
     canonical refusal line.
     """
     if looks_like_jailbreak(query):
-        return ChatTurn(answer=_refusal(language), sources=[], raw_response=None)
+        return ChatTurn(answer=_refusal(language), sources=[], confidence="low", raw_response=None)
 
     settings = get_settings()
     response = engine.chat(query)
 
     nodes = getattr(response, "source_nodes", None) or []
     sources, top_score = _rank_and_filter_sources(nodes, settings)
+    confidence = _confidence_level(top_score, bool(sources))
     log.info(
-        "RAG confidence — top_score=%.3f, candidates=%d, citations=%d",
-        top_score, len(nodes), len(sources),
+        "RAG confidence — level=%s, top_score=%.3f, candidates=%d, citations=%d",
+        confidence, top_score, len(nodes), len(sources),
     )
 
     answer = str(response).strip()
@@ -211,6 +223,8 @@ def ask(engine: ContextChatEngine, query: str, language: str = "en") -> ChatTurn
     # is filtered out by the similarity cutoff. That happens for off-topic
     # questions (no chunk is close enough). Surface the canonical refusal.
     if not answer or answer.lower() == "empty response" or not nodes:
-        return ChatTurn(answer=_refusal(language), sources=[], raw_response=response)
+        return ChatTurn(
+            answer=_refusal(language), sources=[], confidence="low", raw_response=response,
+        )
 
-    return ChatTurn(answer=answer, sources=sources, raw_response=response)
+    return ChatTurn(answer=answer, sources=sources, confidence=confidence, raw_response=response)

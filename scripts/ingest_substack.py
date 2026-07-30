@@ -257,6 +257,17 @@ def _target_path(out_dir: Path, post: Post) -> Path:
     return out_dir / f"{prefix}_{post.slug}.md"
 
 
+def _drop_stale_versions(out_dir: Path, post: Post, target: Path) -> list[str]:
+    """Delete other same-slug files that would duplicate `target` in the index."""
+    dropped: list[str] = []
+    for candidate in out_dir.glob(f"*_{post.slug}.md"):
+        if candidate.name == target.name:
+            continue
+        candidate.unlink()
+        dropped.append(candidate.name)
+    return dropped
+
+
 SOURCES_INDEX_FILENAME = "_sources_index.json"
 
 
@@ -333,6 +344,10 @@ def main() -> int:
             continue
 
         target = _target_path(out_dir, post)
+        stale = _drop_stale_versions(out_dir, post, target)
+        for name in stale:
+            sources_index.pop(name, None)
+            log.info("[%d/%d] %s — removed stale duplicate", i, len(urls), name)
         sources_index[target.name] = {
             "title": post.title,
             "url": post.url,

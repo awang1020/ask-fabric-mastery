@@ -359,6 +359,21 @@ section[data-testid="stSidebar"] [data-testid="stMetricValue"] {{
     letter-spacing: 0.01em;
 }}
 
+/* ---- confidence badge ---- */
+.afm-confidence {{
+    display: inline-flex;
+    align-items: center;
+    padding: 0.35rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    margin: 0 0 0.7rem 0;
+    letter-spacing: 0.005em;
+}}
+.afm-confidence-high {{ background: rgba(34,197,94,0.12); color: #15803D; }}
+.afm-confidence-medium {{ background: rgba(234,179,8,0.15); color: #854D0E; }}
+.afm-confidence-low {{ background: rgba(239,68,68,0.10); color: #B91C1C; }}
+
 /* spinner color */
 [data-testid="stSpinner"] {{ color: {ACCENT} !important; }}
 
@@ -532,12 +547,23 @@ def _html_escape(s: str) -> str:
     )
 
 
+def _render_confidence(confidence: str | None, language: str) -> None:
+    level = confidence if confidence in {"high", "medium", "low"} else "medium"
+    label = t(language, f"confidence_{level}")
+    st.markdown(
+        f'<div class="afm-confidence afm-confidence-{level}">{label}</div>',
+        unsafe_allow_html=True,
+    )
+
+
 def _render_message(msg: dict, language: str) -> None:
     role = msg["role"]
     avatar = "🧑" if role == "user" else "📘"
     with st.chat_message(role, avatar=avatar):
         content = msg["content"]
         cannot = t(language, "cannot_answer")
+        if role == "assistant":
+            _render_confidence(msg.get("confidence"), language)
         if role == "assistant" and content.strip().startswith(cannot.split(".")[0]):
             st.markdown(f'<div class="afm-limitation">{content}</div>', unsafe_allow_html=True)
         else:
@@ -714,11 +740,12 @@ def main() -> None:
             except Exception as exc:  # noqa: BLE001 — UI boundary
                 _report_error(language, exc)
                 st.session_state["messages"].append(
-                    {"role": "assistant", "content": t(language, "error", err=str(exc)), "sources": []}
+                    {"role": "assistant", "content": t(language, "error", err=str(exc)), "sources": [], "confidence": "low"}
                 )
                 return
 
         cannot = t(language, "cannot_answer")
+        _render_confidence(turn.confidence, language)
         if turn.answer.strip().startswith(cannot.split(".")[0]):
             st.markdown(f'<div class="afm-limitation">{turn.answer}</div>', unsafe_allow_html=True)
         else:
