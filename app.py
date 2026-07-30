@@ -498,9 +498,9 @@ def _example_cards(language: str) -> None:
     the welcome screen disappears atomically instead of lingering for a frame.
     """
     examples = [
-        ("🏛️", t(language, "ex_arch_title"), t(language, "ex_arch_prompt")),
-        ("🛡️", t(language, "ex_sec_title"), t(language, "ex_sec_prompt")),
-        ("🔁", t(language, "ex_cicd_title"), t(language, "ex_cicd_prompt")),
+        ("�️", t(language, "ex_lakehouse_title"), t(language, "ex_lakehouse_prompt")),
+        ("🤖", t(language, "ex_agent_title"), t(language, "ex_agent_prompt")),
+        ("📥", t(language, "ex_ingestion_title"), t(language, "ex_ingestion_prompt")),
         ("⚡", t(language, "ex_capacity_title"), t(language, "ex_capacity_prompt")),
     ]
 
