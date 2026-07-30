@@ -250,19 +250,5 @@
     "slug": "dataflow-gen1-vs-gen2-microsoft-fabric",
     "title": "Dataflow Gen1 vs Gen2 : faut-il migrer maintenant ?",
     "url": "https://blog.antoinewang-tech.com/p/dataflow-gen1-vs-gen2-microsoft-fabric"
-  },
-  "undated_microsoft-fabric-top-3-des-nouveautes.md": {
-    "author": "Antoine Wang",
-    "date": "",
-    "slug": "microsoft-fabric-top-3-des-nouveautes",
-    "title": "Microsoft Fabric : Top 3 des nouveautés de Janvier 2026",
-    "url": "https://antoinewang.substack.com/p/microsoft-fabric-top-3-des-nouveautes"
-  },
-  "undated_microsoft-fabric.md": {
-    "author": "Antoine Wang",
-    "date": "",
-    "slug": "microsoft-fabric",
-    "title": "Microsoft Fabric : Révolution ou simple rebranding ?",
-    "url": "https://antoinewang.substack.com/p/microsoft-fabric"
   }
 }

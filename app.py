@@ -649,13 +649,14 @@ def _sidebar(language: str) -> str:
 
 
 def _new_conversation_bar(language: str) -> None:
-    """Discreet right-aligned button above the chat that wipes history + memory."""
-    _, right = st.columns([8, 2])
+    """Tiny icon-only button top-right that wipes history + memory."""
+    _, right = st.columns([12, 1])
     with right:
         if st.button(
-            f"↻  {t(language, 'new_conversation')}",
+            "↻",
             key="afm-new-conv",
-            type="secondary",
+            help=t(language, "new_conversation"),
+            use_container_width=True,
         ):
             st.session_state["messages"] = []
             _reset_engine()
@@ -687,12 +688,15 @@ def main() -> None:
     engine = _get_engine(language)
     n_sources = _stats_count()
 
-    # A queued prompt (from an example-card click) counts as "conversation started"
-    # so the welcome screen never lingers on the frame that processes it.
-    has_pending = bool(st.session_state.get("pending_question"))
+    # Read inputs first so the welcome screen only shows when there is genuinely
+    # no history AND no prompt about to be processed this frame (typed input,
+    # queued example-card click, or replayed pending question).
+    typed_prompt = st.chat_input(t(language, "ask_placeholder"))
+    incoming_prompt = typed_prompt or st.session_state.pop("pending_question", None)
     has_history = bool(st.session_state["messages"])
+    starting_conversation = has_history or bool(incoming_prompt)
 
-    if not has_history and not has_pending:
+    if not starting_conversation:
         _hero(language, n_sources)
         if engine is not None:
             _example_cards(language)
@@ -705,17 +709,15 @@ def main() -> None:
     for msg in st.session_state["messages"]:
         _render_message(msg, language)
 
-    # Chat input is always at the bottom
-    typed_prompt = st.chat_input(t(language, "ask_placeholder"))
-    prompt = typed_prompt or st.session_state.pop("pending_question", None)
-
-    if not prompt:
-        if not st.session_state["messages"]:
+    if not incoming_prompt:
+        if not starting_conversation:
             st.markdown(
                 f'<div class="afm-footer">{t(language, "footer")}</div>',
                 unsafe_allow_html=True,
             )
         return
+
+    prompt = incoming_prompt
 
     # Per-session sliding-window rate limit (caps AOAI token spend per visitor).
     allowed, _retry = check_rate_limit(language)

@@ -162,9 +162,9 @@ def _refusal(language: str) -> str:
 def _rank_and_filter_sources(nodes: list, settings) -> tuple[list[Source], float]:
     """Sort by score desc, dedup per article, apply citation threshold + max cap.
 
-    Returns (citations, top_raw_score). If the threshold filters everything but the
-    retriever did find nodes, keep the strongest one so the answer is always
-    verifiable via at least one link.
+    Returns (citations, top_raw_score). When no chunk clears the threshold, we
+    return an empty list (the UI reflects that as the low-confidence badge with
+    zero source cards).
     """
     raw = [Source.from_node(n) for n in (nodes or [])]
     top_score = max((s.score or 0.0 for s in raw), default=0.0)
@@ -181,8 +181,7 @@ def _rank_and_filter_sources(nodes: list, settings) -> tuple[list[Source], float
 
     threshold = settings.citation_similarity_cutoff
     strong = [s for s in deduped if (s.score or 0.0) >= threshold]
-    citations = (strong or deduped[:1])[: settings.max_citations]
-    return citations, top_score
+    return strong[: settings.max_citations], top_score
 
 
 def _confidence_level(top_score: float, has_citations: bool) -> str:
