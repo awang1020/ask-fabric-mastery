@@ -1,6 +1,6 @@
 ---
 title: Rayfin + Fabric Apps : de l'idée à une app testable par vos équipes
-url: https://antoinewang.substack.com/p/rayfin-fabric-apps-demo
+url: https://blog.antoinewang-tech.com/p/rayfin-fabric-apps-demo
 date: 2026-06-23
 author: Antoine Wang
 source: substack

@@ -1,6 +1,6 @@
 ---
 title: Microsoft Fabric : Copilot Capacity
-url: https://antoinewang.substack.com/p/fabric-copilot-capacity-dedicated
+url: https://blog.antoinewang-tech.com/p/fabric-copilot-capacity-dedicated
 date: 2026-07-14
 author: Antoine Wang
 source: substack

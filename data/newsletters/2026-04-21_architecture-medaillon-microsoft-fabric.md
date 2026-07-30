@@ -1,6 +1,6 @@
 ---
 title: Arrêtez de transformer votre OneLake en marécage : L'architecture Medaillon
-url: https://antoinewang.substack.com/p/architecture-medaillon-microsoft-fabric
+url: https://blog.antoinewang-tech.com/p/architecture-medaillon-microsoft-fabric
 date: 2026-04-21
 author: Antoine Wang
 source: substack

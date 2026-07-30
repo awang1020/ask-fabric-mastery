@@ -1,6 +1,6 @@
 ---
 title: Microsoft Fabric : Maîtriser l'Écosystème d'Ingestion et d'Orchestration, du Low-Code au Big Data
-url: https://antoinewang.substack.com/p/microsoft-fabric-data-ingestion-tools
+url: https://blog.antoinewang-tech.com/p/microsoft-fabric-data-ingestion-tools
 date: 2026-03-31
 author: Antoine Wang
 source: substack

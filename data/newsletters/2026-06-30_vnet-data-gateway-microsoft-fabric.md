@@ -1,6 +1,6 @@
 ---
 title: 3 étapes pour connecter une source privée à Fabric sans exposer vos données sur internet
-url: https://antoinewang.substack.com/p/vnet-data-gateway-microsoft-fabric
+url: https://blog.antoinewang-tech.com/p/vnet-data-gateway-microsoft-fabric
 date: 2026-06-30
 author: Antoine Wang
 source: substack

@@ -23,7 +23,7 @@ from src.i18n import t
 from src.indexer import build_index, index_stats, load_index
 from src.safety import check_rate_limit, require_password
 
-NEWSLETTER_URL = "https://antoinewang.substack.com/"
+NEWSLETTER_URL = "https://blog.antoinewang-tech.com/"
 LOGO_PATH = Path(__file__).parent / "assets" / "logo_substack.webp"
 
 # Only render Python tracebacks in the UI when explicitly enabled — otherwise

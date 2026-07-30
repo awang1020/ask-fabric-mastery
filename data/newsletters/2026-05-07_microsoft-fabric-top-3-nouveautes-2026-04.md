@@ -1,6 +1,6 @@
 ---
 title: Microsoft Fabric : Top 3 des nouveautés d'Avril 2026
-url: https://antoinewang.substack.com/p/microsoft-fabric-top-3-nouveautes-2026-04
+url: https://blog.antoinewang-tech.com/p/microsoft-fabric-top-3-nouveautes-2026-04
 date: 2026-05-07
 author: Antoine Wang
 source: substack

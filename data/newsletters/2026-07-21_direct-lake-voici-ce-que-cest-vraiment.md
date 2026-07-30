@@ -1,6 +1,6 @@
 ---
 title: Direct Lake en production : Configuration, fallback Import/DQ, performance réelle, limites
-url: https://antoinewang.substack.com/p/direct-lake-voici-ce-que-cest-vraiment
+url: https://blog.antoinewang-tech.com/p/direct-lake-voici-ce-que-cest-vraiment
 date: 2026-07-21
 author: Antoine Wang
 source: substack

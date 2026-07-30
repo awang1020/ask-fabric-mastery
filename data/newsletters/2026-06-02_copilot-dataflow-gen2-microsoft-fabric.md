@@ -1,6 +1,6 @@
 ---
 title: Microsoft Fabric : Explorer tout le potentiel de Copilot dans Dataflow Gen2
-url: https://antoinewang.substack.com/p/copilot-dataflow-gen2-microsoft-fabric
+url: https://blog.antoinewang-tech.com/p/copilot-dataflow-gen2-microsoft-fabric
 date: 2026-06-02
 author: Antoine Wang
 source: substack
@@ -30,7 +30,7 @@ Après avoir décortiqué Copilot pour Power BI dans ma précédente édition *(
 
 Feb 17
 
-[Read full story](https://antoinewang.substack.com/p/microsoft-fabric-copilot-powerbi)](https://antoinewang.substack.com/p/microsoft-fabric-copilot-powerbi)
+[Read full story](https://blog.antoinewang-tech.com/p/microsoft-fabric-copilot-powerbi)](https://blog.antoinewang-tech.com/p/microsoft-fabric-copilot-powerbi)
 
 Pour rappel, Dataflow Gen2 est la brique de prédilection pour le low-code ETL, permettant d’ingérer, de nettoyer et de charger des données via une interface visuelle familière dans Microsoft Fabric.
 

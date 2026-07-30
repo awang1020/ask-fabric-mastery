@@ -1,6 +1,6 @@
 ---
 title: Microsoft Fabric : Top 3 des nouveautés de Février 2026 (+ Bonus)
-url: https://antoinewang.substack.com/p/microsoft-fabric-top-3-des-nouveautes-2026-02
+url: https://blog.antoinewang-tech.com/p/microsoft-fabric-top-3-des-nouveautes-2026-02
 date: 2026-03-03
 author: Antoine Wang
 source: substack

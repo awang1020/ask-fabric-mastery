@@ -1,6 +1,6 @@
 ---
 title: FabCon & SQLCon 2026 : l’événement à ne pas rater !
-url: https://antoinewang.substack.com/p/fabcon-and-sqlcon-2026
+url: https://blog.antoinewang-tech.com/p/fabcon-and-sqlcon-2026
 date: 2026-03-20
 author: Antoine Wang
 source: substack

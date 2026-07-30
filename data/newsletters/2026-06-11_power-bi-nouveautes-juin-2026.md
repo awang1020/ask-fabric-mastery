@@ -1,6 +1,6 @@
 ---
 title: Top 3 des nouveautés Power BI de juin 2026
-url: https://antoinewang.substack.com/p/power-bi-nouveautes-juin-2026
+url: https://blog.antoinewang-tech.com/p/power-bi-nouveautes-juin-2026
 date: 2026-06-11
 author: Antoine Wang
 source: substack

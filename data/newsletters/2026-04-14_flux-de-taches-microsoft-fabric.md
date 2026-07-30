@@ -1,6 +1,6 @@
 ---
 title: Du chaos au canevas : Reprenez le contrôle visuel de vos projets Data
-url: https://antoinewang.substack.com/p/flux-de-taches-microsoft-fabric
+url: https://blog.antoinewang-tech.com/p/flux-de-taches-microsoft-fabric
 date: 2026-04-14
 author: Antoine Wang
 source: substack

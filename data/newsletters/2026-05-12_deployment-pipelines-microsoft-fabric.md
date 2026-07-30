@@ -1,6 +1,6 @@
 ---
 title: Du PoC à la Production : Guide pratique des pipelines de déploiement
-url: https://antoinewang.substack.com/p/deployment-pipelines-microsoft-fabric
+url: https://blog.antoinewang-tech.com/p/deployment-pipelines-microsoft-fabric
 date: 2026-05-12
 author: Antoine Wang
 source: substack

@@ -1,6 +1,6 @@
 ---
 title: Piloter votre capacité Fabric comme un Pro
-url: https://antoinewang.substack.com/p/capacity-metrics-fabric
+url: https://blog.antoinewang-tech.com/p/capacity-metrics-fabric
 date: 2026-02-24
 author: Antoine Wang
 source: substack

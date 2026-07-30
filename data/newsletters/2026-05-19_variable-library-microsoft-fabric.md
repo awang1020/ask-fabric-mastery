@@ -1,6 +1,6 @@
 ---
 title: Variable Library : Centralisez vos paramètres pour un déploiement sans faille
-url: https://antoinewang.substack.com/p/variable-library-microsoft-fabric
+url: https://blog.antoinewang-tech.com/p/variable-library-microsoft-fabric
 date: 2026-05-19
 author: Antoine Wang
 source: substack

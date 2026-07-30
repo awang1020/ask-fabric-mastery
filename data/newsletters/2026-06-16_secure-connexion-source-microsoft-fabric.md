@@ -1,6 +1,6 @@
 ---
 title: Sécuriser les connexions dans Microsoft Fabric
-url: https://antoinewang.substack.com/p/secure-connexion-source-microsoft-fabric
+url: https://blog.antoinewang-tech.com/p/secure-connexion-source-microsoft-fabric
 date: 2026-06-16
 author: Antoine Wang
 source: substack

@@ -1,6 +1,6 @@
 ---
 title: Adieu Power BI Premium : Pourquoi vous devez migrer vers Fabric dès aujourd’hui
-url: https://antoinewang.substack.com/p/migration-power-bi-premium-to-fabric
+url: https://blog.antoinewang-tech.com/p/migration-power-bi-premium-to-fabric
 date: 2026-03-10
 author: Antoine Wang
 source: substack
@@ -57,7 +57,7 @@ Pour aller plus loin sur Microsoft Fabric, j’ai décortiqué pour vous tous se
 
 Feb 10
 
-[Read full story](https://antoinewang.substack.com/p/microsoft-fabric)](https://antoinewang.substack.com/p/microsoft-fabric)
+[Read full story](https://blog.antoinewang-tech.com/p/microsoft-fabric)](https://blog.antoinewang-tech.com/p/microsoft-fabric)
 
 ---
 

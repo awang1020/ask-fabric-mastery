@@ -1,6 +1,6 @@
 ---
 title: Microsoft Fabric : Data Agent vs Copilot
-url: https://antoinewang.substack.com/p/microsoft-fabric-data-agent-copilot
+url: https://blog.antoinewang-tech.com/p/microsoft-fabric-data-agent-copilot
 date: 2026-07-07
 author: Antoine Wang
 source: substack
@@ -47,7 +47,7 @@ Let’s go !
 
 Posons le cadre simplement. Copilot et Data Agent reposent sur des LLM (Azure OpenAI) et savent tous les deux répondre en langage naturel. Ce qui les sépare, c’est le niveau de configuration et le rôle :
 
-* **Copilot dans Fabric & Power BI** est un assistant IA intégré nativement dans toute l’expérience : partout où apparaît l’icône Copilot ([Dataflow gen2](https://antoinewang.substack.com/p/copilot-data-flow-gen2-microsoft-fabric), [Power BI](https://antoinewang.substack.com/p/microsoft-fabric-copilot-powerbi), notebooks, …), vous dialoguez en langage naturel. Préconfiguré et prêt à l’emploi, il aide à créer des visuels et des pages de rapport, écrire et expliquer du DAX ou du SQL, résumer des insights et générer des narratifs, et accélérer les transformations de données. Il travaille dans le contexte Fabric actif, avec mémoire conversationnelle et portée à l’échelle du workspace.
+* **Copilot dans Fabric & Power BI** est un assistant IA intégré nativement dans toute l’expérience : partout où apparaît l’icône Copilot ([Dataflow gen2](https://blog.antoinewang-tech.com/p/copilot-data-flow-gen2-microsoft-fabric), [Power BI](https://blog.antoinewang-tech.com/p/microsoft-fabric-copilot-powerbi), notebooks, …), vous dialoguez en langage naturel. Préconfiguré et prêt à l’emploi, il aide à créer des visuels et des pages de rapport, écrire et expliquer du DAX ou du SQL, résumer des insights et générer des narratifs, et accélérer les transformations de données. Il travaille dans le contexte Fabric actif, avec mémoire conversationnelle et portée à l’échelle du workspace.
 * Un **Data Agent** est un artefact Fabric que vous créez dans un workspace et publiez, exactement comme un rapport Power BI. C’est un agent conversationnel d’analyse (text-to-query) : agentique dans son fonctionnement interne (il choisit la source, invoque l’outil, génère, valide et exécute la requête) mais strictement cantonné à la lecture (aucune écriture ni action sur les systèmes). On spécifie des instructions, des exemples et jusqu'à cinq sources choisies en sélectionnant les tables pertinentes.
 
 La distinction tient en une phrase : Copilot est l’assistant généraliste prêt à l’emploi ; le Data Agent est l’expert gouverné que vous façonnez et diffusez.

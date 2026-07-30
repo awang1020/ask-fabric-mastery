@@ -1,6 +1,6 @@
 ---
 title: Sécurité des données : Pourquoi vous ne pouvez plus la traiter en fin de projet
-url: https://antoinewang.substack.com/p/securite-microsoft-fabric
+url: https://blog.antoinewang-tech.com/p/securite-microsoft-fabric
 date: 2026-05-26
 author: Antoine Wang
 source: substack

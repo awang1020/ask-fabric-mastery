@@ -1,6 +1,6 @@
 ---
 title: Microsoft Fabric : Top 3 des nouveautés de Juin 2026
-url: https://antoinewang.substack.com/p/microsoft-fabric-top-3-nouveautes-2026-06
+url: https://blog.antoinewang-tech.com/p/microsoft-fabric-top-3-nouveautes-2026-06
 date: 2026-06-04
 author: Antoine Wang
 source: substack

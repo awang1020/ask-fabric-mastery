@@ -1,6 +1,6 @@
 ---
 title: Microsoft Fabric en production : la checklist en 10 points avant le Go Live
-url: https://antoinewang.substack.com/p/microsoft-fabric-mise-en-production-checklist
+url: https://blog.antoinewang-tech.com/p/microsoft-fabric-mise-en-production-checklist
 date: 2026-06-09
 author: Antoine Wang
 source: substack
@@ -29,7 +29,7 @@ Gardez cette liste. Elle vous évitera des nuits d’astreinte.
 
 ### ✅ Point 1 : Architecture ! Votre architecture médaillon est-elle un contrat organisationnel, pas juste un nommage ?
 
-*→ **Post de référence** : [Architecture Medallion dans Fabric](https://antoinewang.substack.com/p/architecture-medaillon-microsoft-fabric)*
+*→ **Post de référence** : [Architecture Medallion dans Fabric](https://blog.antoinewang-tech.com/p/architecture-medaillon-microsoft-fabric)*
 
 Bronze, Silver, Gold : trois lakehouses bien nommées ne font pas une Medallion.
 

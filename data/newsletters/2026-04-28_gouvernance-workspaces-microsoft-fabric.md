@@ -1,6 +1,6 @@
 ---
 title: Gouvernance des workspaces : Les questions de gouvernance à régler d'urgence
-url: https://antoinewang.substack.com/p/gouvernance-workspaces-microsoft-fabric
+url: https://blog.antoinewang-tech.com/p/gouvernance-workspaces-microsoft-fabric
 date: 2026-04-28
 author: Antoine Wang
 source: substack

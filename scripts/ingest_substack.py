@@ -1,6 +1,6 @@
 """Ingest posts from a Substack publication into ./data/newsletters as Markdown.
 
-Default source: https://antoinewang.substack.com (Fabric Mastery).
+Default source: https://blog.antoinewang-tech.com (Fabric Mastery).
 
 Strategy:
   1. Fetch /sitemap.xml to enumerate every published post URL.
@@ -39,7 +39,7 @@ USER_AGENT = (
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
     "(KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
 )
-DEFAULT_SUBSTACK = "https://antoinewang.substack.com"
+DEFAULT_SUBSTACK = "https://blog.antoinewang-tech.com"
 POST_PATH_RE = re.compile(r"/p/[^/]+/?$")
 SLUG_SANITIZE_RE = re.compile(r"[^a-z0-9-]+")
 SITEMAP_NS = {"sm": "http://www.sitemaps.org/schemas/sitemap/0.9"}

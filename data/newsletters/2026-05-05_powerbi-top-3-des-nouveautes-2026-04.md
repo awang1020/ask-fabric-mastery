@@ -1,6 +1,6 @@
 ---
 title: Power BI : Top 3 des nouveautés d'Avril 2026
-url: https://antoinewang.substack.com/p/powerbi-top-3-des-nouveautes-2026-04
+url: https://blog.antoinewang-tech.com/p/powerbi-top-3-des-nouveautes-2026-04
 date: 2026-05-05
 author: Antoine Wang
 source: substack
